@@ -1,0 +1,66 @@
+// Convert px to rem
+@function rem($pixels, $context: 16) {
+  @return #{$pixels / $context}rem;
+}
+
+// Convert px to em
+@function em($pixels, $context: 16) {
+  @return #{$pixels / $context}em;
+}
+
+// Lighten color function
+@function lighten-color($color, $percentage) {
+  @return lighten($color, $percentage);
+}
+
+// Darken color function
+@function darken-color($color, $percentage) {
+  @return darken($color, $percentage);
+}
+
+// Alpha transparency
+@function alpha($color, $opacity) {
+  @return rgba($color, $opacity);
+}
+
+// Calculate contrast ratio for accessibility
+@function contrast-ratio($color1, $color2) {
+  $luminance1: luminance($color1) + 0.05;
+  $luminance2: luminance($color2) + 0.05;
+
+  @return max($luminance1, $luminance2) / min($luminance1, $luminance2);
+}
+
+// Get luminance of a color
+@function luminance($color) {
+  $red: red($color) / 255;
+  $green: green($color) / 255;
+  $blue: blue($color) / 255;
+
+  @return 0.2126 * pow($red, 2.4) + 0.7152 * pow($green, 2.4) + 0.0722 *
+    pow($blue, 2.4);
+}
+
+// Power function for luminance calculation
+@function pow($number, $exponent) {
+  $value: 1;
+  @if $exponent > 0 {
+    @for $i from 1 through $exponent {
+      $value: $value * $number;
+    }
+  }
+  @return $value;
+}
+
+// Generate gradient
+@function gradient($direction, $color1, $color2) {
+  @return linear-gradient($direction, $color1, $color2);
+}
+
+// Map deep get function
+@function map-deep-get($map, $keys...) {
+  @each $key in $keys {
+    $map: map-get($map, $key);
+  }
+  @return $map;
+}

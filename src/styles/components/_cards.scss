@@ -1,0 +1,261 @@
+// Card components
+
+.card {
+  @include card;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-heavy;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, $primary-green, $accent-blue);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  // Card header
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $border-color;
+
+    h3 {
+      margin: 0;
+      font-size: $font-lg;
+      font-weight: $font-semibold;
+    }
+  }
+
+  // Card body
+  &__body {
+    flex: 1;
+  }
+
+  // Card footer
+  &__footer {
+    margin-top: $spacing-md;
+    padding-top: $spacing-sm;
+    border-top: 1px solid $border-color;
+  }
+}
+
+// Coin card specific styles
+.coin-card {
+  @extend .card;
+  position: relative;
+  cursor: pointer;
+
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+
+    .coin-info {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+
+      .coin-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .coin-details {
+        h3 {
+          margin: 0;
+          font-size: $font-md;
+          font-weight: $font-semibold;
+          color: $text-primary;
+        }
+
+        span {
+          font-size: $font-sm;
+          color: $text-secondary;
+          text-transform: uppercase;
+        }
+      }
+    }
+
+    .favorite-btn {
+      @extend .btn--icon;
+      @extend .btn--icon--favorite;
+    }
+  }
+
+  &__price {
+    margin-bottom: $spacing-sm;
+
+    .current-price {
+      font-size: $font-xl;
+      font-weight: $font-bold;
+      color: $text-primary;
+      margin-bottom: $spacing-xs;
+    }
+
+    .price-change {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xs;
+      font-size: $font-sm;
+      font-weight: $font-medium;
+
+      &--positive {
+        color: $primary-green;
+      }
+
+      &--negative {
+        color: $primary-red;
+      }
+
+      .change-icon {
+        font-size: $font-xs;
+      }
+    }
+  }
+
+  &__chart {
+    height: 60px;
+    margin-top: $spacing-md;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  // Loading state
+  &--loading {
+    .coin-card__header {
+      .coin-info {
+        .coin-icon {
+          @include loading-pulse;
+          background-color: $border-color;
+        }
+
+        .coin-details {
+          h3,
+          span {
+            @include loading-pulse;
+            height: 1em;
+            border-radius: $radius-sm;
+          }
+
+          h3 {
+            width: 100px;
+            margin-bottom: $spacing-xs;
+          }
+
+          span {
+            width: 60px;
+          }
+        }
+      }
+    }
+
+    .coin-card__price {
+      .current-price {
+        @include loading-pulse;
+        width: 120px;
+        height: 1.5em;
+        border-radius: $radius-sm;
+      }
+
+      .price-change {
+        @include loading-pulse;
+        width: 80px;
+        height: 1em;
+        border-radius: $radius-sm;
+      }
+    }
+
+    .coin-card__chart {
+      @include loading-pulse;
+      border-radius: $radius-sm;
+    }
+  }
+}
+
+// Stats card
+.stats-card {
+  @extend .card;
+  text-align: center;
+
+  &__icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto $spacing-md;
+    background: linear-gradient(135deg, $primary-green, $accent-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: $font-xl;
+  }
+
+  &__value {
+    font-size: $font-3xl;
+    font-weight: $font-bold;
+    color: $text-primary;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__label {
+    font-size: $font-sm;
+    color: $text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+// Card grid
+.card-grid {
+  display: grid;
+  gap: $spacing-lg;
+  grid-template-columns: 1fr;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include desktop {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: $large-desktop) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// Card list (alternative layout)
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  .card {
+    @include flex-between;
+    padding: $spacing-md;
+
+    &:hover {
+      transform: translateX(4px);
+    }
+  }
+}

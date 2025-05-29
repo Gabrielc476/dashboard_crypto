@@ -1,0 +1,49 @@
+// Main SCSS file - Import order matters!
+
+// 1. Abstracts (no CSS output)
+@import "abstracts/variables";
+@import "abstracts/functions";
+@import "abstracts/mixins";
+
+// 2. Base styles
+@import "base/reset";
+@import "base/typography";
+
+// 3. Layout styles
+@import "layouts/header";
+
+// 4. Components
+@import "components/buttons";
+@import "components/cards";
+@import "components/forms";
+
+// Global utility classes
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+
+  @include tablet {
+    padding: 0 $spacing-lg;
+  }
+
+  @include desktop {
+    padding: 0 $spacing-xl;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.loading {
+  @include loading-pulse;
+}

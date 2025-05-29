@@ -1,0 +1,333 @@
+// Form components
+
+.form-group {
+  margin-bottom: $spacing-lg;
+
+  label {
+    display: block;
+    margin-bottom: $spacing-sm;
+    font-weight: $font-medium;
+    color: $text-primary;
+    font-size: $font-sm;
+  }
+
+  &--error {
+    input,
+    textarea,
+    select {
+      border-color: $primary-red;
+    }
+
+    .error-message {
+      display: block;
+    }
+  }
+}
+
+// Base input styles
+%input-base {
+  width: 100%;
+  padding: $spacing-md;
+  background: $card-bg;
+  border: 2px solid $border-color;
+  border-radius: $radius-md;
+  color: $text-primary;
+  font-size: $font-md;
+  transition: all 0.2s ease;
+
+  &::placeholder {
+    color: $text-secondary;
+  }
+
+  &:focus {
+    border-color: $accent-blue;
+    box-shadow: 0 0 0 3px alpha($accent-blue, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: alpha($border-color, 0.1);
+  }
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+textarea,
+select {
+  @extend %input-base;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+  font-family: $font-sans;
+}
+
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23a0a3bd' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right $spacing-md center;
+  background-size: 16px;
+  padding-right: calc(#{$spacing-md} + 20px);
+}
+
+// Search bar component
+.search-bar {
+  position: relative;
+  margin-bottom: $spacing-xl;
+
+  &__input {
+    @extend %input-base;
+    padding-left: calc(#{$spacing-md} + 24px);
+    padding-right: calc(#{$spacing-md} + 32px);
+    font-size: $font-lg;
+    border-radius: 50px;
+    background: alpha($card-bg, 0.8);
+    backdrop-filter: blur(10px);
+
+    &:focus {
+      background: $card-bg;
+      box-shadow: $shadow-medium, 0 0 0 3px alpha($accent-blue, 0.1);
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    left: $spacing-md;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $text-secondary;
+    font-size: $font-lg;
+    pointer-events: none;
+  }
+
+  &__clear {
+    position: absolute;
+    right: $spacing-md;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: alpha($border-color, 0.5);
+    color: $text-secondary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
+
+    &:hover {
+      background: alpha($border-color, 0.8);
+      color: $text-primary;
+    }
+
+    &--visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  // Loading state
+  &--loading {
+    .search-bar__icon {
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  // Suggestions dropdown
+  &__suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: $card-bg;
+    border: 2px solid $border-color;
+    border-top: none;
+    border-radius: 0 0 $radius-lg $radius-lg;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: $shadow-heavy;
+
+    &:empty {
+      display: none;
+    }
+
+    .suggestion-item {
+      padding: $spacing-md;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      border-bottom: 1px solid alpha($border-color, 0.3);
+
+      &:hover,
+      &--highlighted {
+        background: alpha($border-color, 0.2);
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .coin-info {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+
+        .coin-icon {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+        }
+
+        .coin-name {
+          font-weight: $font-medium;
+          color: $text-primary;
+        }
+
+        .coin-symbol {
+          color: $text-secondary;
+          font-size: $font-sm;
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
+}
+
+// Checkbox styles
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  cursor: pointer;
+  user-select: none;
+
+  input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    appearance: none;
+    border: 2px solid $border-color;
+    border-radius: $radius-sm;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+
+    &:checked {
+      background: $primary-green;
+      border-color: $primary-green;
+
+      &::after {
+        content: "✓";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+      }
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 3px alpha($primary-green, 0.2);
+    }
+  }
+
+  label {
+    margin: 0;
+    cursor: pointer;
+    color: $text-primary;
+  }
+}
+
+// Radio button styles
+.radio {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  cursor: pointer;
+  user-select: none;
+
+  input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    appearance: none;
+    border: 2px solid $border-color;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+
+    &:checked {
+      border-color: $primary-green;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 8px;
+        height: 8px;
+        background: $primary-green;
+        border-radius: 50%;
+      }
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 3px alpha($primary-green, 0.2);
+    }
+  }
+
+  label {
+    margin: 0;
+    cursor: pointer;
+    color: $text-primary;
+  }
+}
+
+// Error message
+.error-message {
+  display: none;
+  margin-top: $spacing-xs;
+  font-size: $font-sm;
+  color: $primary-red;
+}
+
+// Success message
+.success-message {
+  margin-top: $spacing-xs;
+  font-size: $font-sm;
+  color: $primary-green;
+}
+
+// Form validation
+.form-group {
+  &--success {
+    input,
+    textarea,
+    select {
+      border-color: $primary-green;
+    }
+
+    .success-message {
+      display: block;
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

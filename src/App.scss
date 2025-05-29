@@ -1,0 +1,124 @@
+// App component specific styles
+
+.app {
+  min-height: 100vh;
+  background: $dark-bg;
+  color: $text-primary;
+
+  &__main {
+    padding: $spacing-xl 0;
+    min-height: calc(100vh - 80px); // Adjust based on header height
+  }
+
+  &__container {
+    @extend .container;
+  }
+
+  // Loading state for entire app
+  &--loading {
+    .app__main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: $spacing-lg;
+
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid alpha($border-color, 0.3);
+        border-top-color: $primary-green;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      .loading-text {
+        color: $text-secondary;
+        font-size: $font-lg;
+      }
+    }
+  }
+
+  // Error state
+  &__error {
+    text-align: center;
+    padding: $spacing-xl;
+
+    .error-icon {
+      font-size: 4rem;
+      color: $primary-red;
+      margin-bottom: $spacing-lg;
+    }
+
+    .error-title {
+      font-size: $font-2xl;
+      font-weight: $font-bold;
+      color: $text-primary;
+      margin-bottom: $spacing-md;
+    }
+
+    .error-message {
+      color: $text-secondary;
+      margin-bottom: $spacing-lg;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .retry-button {
+      @extend .btn--primary;
+    }
+  }
+}
+
+// Layout sections
+.section {
+  margin-bottom: $spacing-xl;
+
+  &__header {
+    margin-bottom: $spacing-lg;
+    text-align: center;
+
+    h2 {
+      margin-bottom: $spacing-sm;
+      background: linear-gradient(135deg, $primary-green, $accent-blue);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    p {
+      color: $text-secondary;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+}
+
+// Responsive adjustments
+@include mobile {
+  .app {
+    &__main {
+      padding: $spacing-lg 0;
+    }
+  }
+
+  .section {
+    margin-bottom: $spacing-lg;
+
+    &__header {
+      margin-bottom: $spacing-md;
+      text-align: left;
+
+      h2 {
+        font-size: $font-2xl;
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
