@@ -2,34 +2,84 @@
 @import "../../styles/abstracts/variables";
 @import "../../styles/abstracts/mixins";
 
-// Button classes
-.btn {
-  @include button-primary;
+// Local button styles to avoid extend issues
+%btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm $spacing-lg;
+  border: none;
+  border-radius: $radius-md;
+  font-size: $font-md;
+  font-weight: $font-medium;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  outline: none;
 
-  &--secondary {
-    @include button-secondary;
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
-  &--sm {
-    padding: $spacing-xs $spacing-sm;
-    font-size: $font-sm;
+  &:focus {
+    outline: 2px solid $accent-blue;
+    outline-offset: 2px;
   }
+}
 
-  &--icon {
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    border-radius: $radius-md;
-    background: transparent;
-    color: $text-secondary;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+%btn-primary {
+  @extend %btn-base;
+  background: linear-gradient(
+    135deg,
+    $primary-green,
+    lighten($primary-green, 10%)
+  );
+  color: white;
 
-    &:hover {
-      background: rgba($border-color, 0.2);
-      color: $text-primary;
-    }
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-heavy;
+  }
+}
+
+%btn-secondary {
+  @extend %btn-base;
+  background: transparent;
+  color: $text-primary;
+  border: 2px solid $border-color;
+
+  &:hover {
+    background: $border-color;
+    transform: translateY(-2px);
+  }
+}
+
+%btn-sm {
+  padding: $spacing-xs $spacing-sm;
+  font-size: $font-sm;
+}
+
+%btn-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: $radius-md;
+  background: transparent;
+  color: $text-secondary;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba($border-color, 0.2);
+    color: $text-primary;
   }
 }
 
@@ -140,8 +190,8 @@
       gap: $spacing-sm;
 
       button {
-        @extend .btn--icon;
-        @extend .btn--sm;
+        @extend %btn-icon;
+        @extend %btn-sm;
         width: 32px;
         height: 32px;
         font-size: $font-sm;
@@ -243,9 +293,8 @@
       }
 
       .retry-button {
-        @extend .btn;
-        @extend .btn--primary;
-        @extend .btn--sm;
+        @extend %btn-primary;
+        @extend %btn-sm;
       }
     }
   }
@@ -506,8 +555,8 @@
       gap: $spacing-xs;
 
       .remove-btn {
-        @extend .btn--icon;
-        @extend .btn--sm;
+        @extend %btn-icon;
+        @extend %btn-sm;
         width: 24px;
         height: 24px;
         color: rgba($primary-red, 0.6);
@@ -550,9 +599,8 @@
 
 // Favorites summary component
 .favorites-summary {
-  @extend .btn;
-  @extend .btn--secondary;
-  @extend .btn--sm;
+  @extend %btn-secondary;
+  @extend %btn-sm;
   display: flex;
   align-items: center;
   gap: $spacing-xs;
