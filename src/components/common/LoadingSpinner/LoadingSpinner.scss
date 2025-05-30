@@ -12,7 +12,7 @@
   &__circle {
     position: relative;
     border-radius: 50%;
-    border: 3px solid alpha($border-color, 0.3);
+    border: 3px solid rgba($border-color, 0.3);
     animation: spin 1s linear infinite;
 
     &-inner {
@@ -107,7 +107,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: alpha($dark-bg, 0.8);
+    background: rgba($dark-bg, 0.8);
     backdrop-filter: blur(4px);
     z-index: 9999;
   }
@@ -122,9 +122,9 @@
 .loading-pulse {
   background: linear-gradient(
     90deg,
-    alpha($border-color, 0.2) 25%,
-    alpha($border-color, 0.4) 50%,
-    alpha($border-color, 0.2) 75%
+    rgba($border-color, 0.2) 25%,
+    rgba($border-color, 0.4) 50%,
+    rgba($border-color, 0.2) 75%
   );
   background-size: 200% 100%;
   animation: loading-pulse 1.5s infinite;
@@ -218,7 +218,7 @@
   border-collapse: collapse;
 
   &__header {
-    background: alpha($border-color, 0.1);
+    background: rgba($border-color, 0.1);
 
     th {
       padding: $spacing-md;
@@ -229,12 +229,12 @@
 
   &__row {
     &:nth-child(even) {
-      background: alpha($border-color, 0.05);
+      background: rgba($border-color, 0.05);
     }
 
     td {
       padding: $spacing-md;
-      border-bottom: 1px solid alpha($border-color, 0.2);
+      border-bottom: 1px solid rgba($border-color, 0.2);
     }
   }
 }

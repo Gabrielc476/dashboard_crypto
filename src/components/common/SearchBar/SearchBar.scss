@@ -19,7 +19,7 @@
     padding: $spacing-md $spacing-lg;
     padding-left: calc(#{$spacing-lg} + 32px); // Space for search icon
     padding-right: calc(#{$spacing-lg} + 40px); // Space for clear button
-    background: alpha($card-bg, 0.8);
+    background: rgba($card-bg, 0.8);
     backdrop-filter: blur(10px);
     border: 2px solid $border-color;
     border-radius: 50px;
@@ -36,7 +36,7 @@
       outline: none;
       background: $card-bg;
       border-color: $accent-blue;
-      box-shadow: $shadow-medium, 0 0 0 3px alpha($accent-blue, 0.1);
+      box-shadow: $shadow-medium, 0 0 0 3px rgba($accent-blue, 0.1);
     }
 
     &:hover {
@@ -63,7 +63,7 @@
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: alpha($border-color, 0.5);
+    background: rgba($border-color, 0.5);
     color: $text-secondary;
     border: none;
     display: flex;
@@ -76,7 +76,7 @@
     font-size: $font-sm;
 
     &:hover {
-      background: alpha($border-color, 0.8);
+      background: rgba($border-color, 0.8);
       color: $text-primary;
       transform: translateY(-50%) scale(1.1);
     }
@@ -90,7 +90,7 @@
   &__error {
     margin-top: $spacing-sm;
     padding: $spacing-sm $spacing-lg;
-    background: alpha($primary-red, 0.1);
+    background: rgba($primary-red, 0.1);
     color: $primary-red;
     border-radius: $radius-md;
     font-size: $font-sm;
@@ -137,13 +137,13 @@
 
   &__section-header {
     padding: $spacing-sm $spacing-lg;
-    background: alpha($border-color, 0.1);
+    background: rgba($border-color, 0.1);
     color: $text-secondary;
     font-size: $font-xs;
     font-weight: $font-semibold;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 1px solid alpha($border-color, 0.3);
+    border-bottom: 1px solid rgba($border-color, 0.3);
   }
 
   &__no-results {
@@ -156,7 +156,7 @@
   &__debug {
     margin-top: $spacing-xs;
     padding: $spacing-xs;
-    background: alpha($primary-green, 0.1);
+    background: rgba($primary-green, 0.1);
     color: $primary-green;
     font-size: $font-xs;
     border-radius: $radius-sm;
@@ -176,13 +176,13 @@
   padding: $spacing-md $spacing-lg;
   cursor: pointer;
   transition: all 0.2s ease;
-  border-bottom: 1px solid alpha($border-color, 0.2);
+  border-bottom: 1px solid rgba($border-color, 0.2);
   display: flex;
   align-items: center;
 
   &:hover,
   &--highlighted {
-    background: alpha($border-color, 0.1);
+    background: rgba($border-color, 0.1);
     transform: translateX(2px);
   }
 
@@ -209,7 +209,7 @@
         content: "";
         width: 16px;
         height: 16px;
-        border: 2px solid alpha($text-secondary, 0.3);
+        border: 2px solid rgba($text-secondary, 0.3);
         border-top-color: $text-secondary;
         border-radius: 50%;
         animation: spin 1s linear infinite;
@@ -265,7 +265,7 @@
     font-weight: $font-medium;
     margin-left: auto;
     padding: $spacing-xs $spacing-sm;
-    background: alpha($border-color, 0.2);
+    background: rgba($border-color, 0.2);
     border-radius: $radius-sm;
   }
 }

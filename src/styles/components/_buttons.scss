@@ -1,5 +1,7 @@
-// Button components
+// src/styles/components/_buttons.scss
+// Complete button system with all variants
 
+// Base button style
 .btn {
   display: inline-flex;
   align-items: center;
@@ -14,6 +16,7 @@
   transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
+  outline: none;
 
   &:disabled {
     opacity: 0.6;
@@ -39,7 +42,17 @@
 
   // Primary button
   &--primary {
-    @include button-primary;
+    background: linear-gradient(
+      135deg,
+      $primary-green,
+      lighten($primary-green, 10%)
+    );
+    color: white;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-heavy;
+    }
   }
 
   // Secondary button
@@ -104,6 +117,7 @@
     border-radius: $radius-md;
     background: transparent;
     color: $text-secondary;
+    border: none;
 
     &:hover {
       background: rgba($border-color, 0.2);
@@ -188,6 +202,53 @@
   }
 }
 
+// Floating action button
+.fab {
+  @extend .btn;
+  @extend .btn--primary;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  position: fixed;
+  bottom: $spacing-lg;
+  right: $spacing-lg;
+  z-index: 1000;
+  box-shadow: $shadow-heavy;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+// Close button
+.close-btn {
+  @extend .btn--icon;
+  color: $text-secondary;
+
+  &:hover {
+    color: $text-primary;
+    background: rgba($border-color, 0.2);
+  }
+}
+
+// Retry button
+.retry-button {
+  @extend .btn;
+  @extend .btn--primary;
+}
+
+// Refresh button
+.refresh-button {
+  @extend .btn;
+  @extend .btn--secondary;
+}
+
+// Clear button
+.clear-button {
+  @extend .btn;
+  @extend .btn--danger;
+}
+
 // Animations
 @keyframes spin {
   to {
@@ -210,5 +271,100 @@
   }
   70% {
     transform: scale(1);
+  }
+}
+
+// Dark theme adjustments
+.theme-dark {
+  .btn {
+    &--secondary {
+      border-color: lighten($border-color, 10%);
+
+      &:hover {
+        background: lighten($border-color, 5%);
+      }
+    }
+  }
+}
+
+// Light theme adjustments
+.theme-light {
+  .btn {
+    &--secondary {
+      border-color: #e5e7eb;
+      color: #374151;
+
+      &:hover {
+        background: #f3f4f6;
+      }
+    }
+
+    &--ghost {
+      color: #6b7280;
+
+      &:hover {
+        color: #374151;
+        background: rgba(#e5e7eb, 0.5);
+      }
+    }
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .btn {
+    border: 2px solid transparent;
+
+    &--primary {
+      border-color: $primary-green;
+    }
+
+    &--secondary {
+      border-color: $border-color;
+    }
+
+    &--danger {
+      border-color: $primary-red;
+    }
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .fab {
+    transition: none !important;
+    animation: none !important;
+
+    &:hover {
+      transform: none !important;
+    }
+  }
+}
+
+// Mobile adjustments
+@include mobile {
+  .btn {
+    padding: $spacing-sm $spacing-md;
+
+    &--sm {
+      padding: $spacing-xs $spacing-sm;
+    }
+
+    &--lg {
+      padding: $spacing-md $spacing-lg;
+    }
+
+    &--icon {
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  .fab {
+    width: 48px;
+    height: 48px;
+    bottom: $spacing-md;
+    right: $spacing-md;
   }
 }

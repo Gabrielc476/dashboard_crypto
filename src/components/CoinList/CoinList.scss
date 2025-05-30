@@ -2,6 +2,72 @@
 @import "../../styles/abstracts/variables";
 @import "../../styles/abstracts/mixins";
 
+// Input base mixin
+%input-base {
+  width: 100%;
+  padding: $spacing-sm $spacing-md;
+  background: $card-bg;
+  border: 2px solid $border-color;
+  border-radius: $radius-md;
+  color: $text-primary;
+  font-size: $font-md;
+  transition: all 0.2s ease;
+
+  &::placeholder {
+    color: $text-secondary;
+  }
+
+  &:focus {
+    border-color: $accent-blue;
+    box-shadow: 0 0 0 3px rgba($accent-blue, 0.1);
+    outline: none;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: rgba($border-color, 0.1);
+  }
+}
+
+// Button classes
+.btn {
+  @include button-primary;
+
+  &--secondary {
+    @include button-secondary;
+  }
+
+  &--primary {
+    @include button-primary;
+  }
+
+  &--sm {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-sm;
+  }
+
+  &--icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: $radius-md;
+    background: transparent;
+    color: $text-secondary;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba($border-color, 0.2);
+      color: $text-primary;
+    }
+  }
+}
+
 .coin-list {
   width: 100%;
 
@@ -400,16 +466,25 @@
 
   &__page {
     @extend .btn;
-    @extend .btn--ghost;
+    @extend .btn--secondary;
     @extend .btn--sm;
     min-width: 40px;
     height: 40px;
     padding: 0;
     border-radius: 50%;
+    background: transparent;
+    color: $text-secondary;
+    border: 1px solid transparent;
+
+    &:hover {
+      color: $text-primary;
+      background: rgba($border-color, 0.1);
+    }
 
     &--active {
       background: $accent-blue;
       color: white;
+      border-color: $accent-blue;
 
       &:hover {
         background: lighten($accent-blue, 5%);

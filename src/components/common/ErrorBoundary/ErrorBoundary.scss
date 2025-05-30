@@ -2,6 +2,66 @@
 @import "../../../styles/abstracts/variables";
 @import "../../../styles/abstracts/mixins";
 
+// Button classes
+.btn {
+  @include button-primary;
+
+  &--secondary {
+    @include button-secondary;
+  }
+
+  &--sm {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-sm;
+  }
+
+  &--primary {
+    @include button-primary;
+  }
+
+  &--danger {
+    background: linear-gradient(
+      135deg,
+      $primary-red,
+      lighten($primary-red, 10%)
+    );
+    color: white;
+    border: none;
+    border-radius: $radius-md;
+    padding: $spacing-sm $spacing-lg;
+    font-weight: $font-semibold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-heavy;
+    }
+  }
+
+  &--ghost {
+    background: transparent;
+    color: $text-secondary;
+    border: 1px solid transparent;
+    border-radius: $radius-md;
+    padding: $spacing-sm $spacing-lg;
+    font-weight: $font-medium;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      color: $text-primary;
+      background: rgba($border-color, 0.1);
+    }
+  }
+}
+
 .error-boundary {
   display: flex;
   align-items: center;

@@ -2,6 +2,37 @@
 @import "../../styles/abstracts/variables";
 @import "../../styles/abstracts/mixins";
 
+// Button classes
+.btn {
+  @include button-primary;
+
+  &--secondary {
+    @include button-secondary;
+  }
+
+  &--sm {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-sm;
+  }
+
+  &--icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: $radius-md;
+    background: transparent;
+    color: $text-secondary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: rgba($border-color, 0.2);
+      color: $text-primary;
+    }
+  }
+}
+
 .favorites-list {
   background: $card-bg;
   border-radius: $radius-lg;
@@ -69,8 +100,8 @@
   &__header {
     @include flex-between;
     padding: $spacing-lg;
-    border-bottom: 1px solid alpha($border-color, 0.2);
-    background: alpha($border-color, 0.05);
+    border-bottom: 1px solid rgba($border-color, 0.2);
+    background: rgba($border-color, 0.05);
     flex-shrink: 0;
 
     .header-info {
@@ -89,7 +120,7 @@
           font-size: $font-sm;
           color: $text-secondary;
           font-weight: $font-medium;
-          background: alpha($border-color, 0.2);
+          background: rgba($border-color, 0.2);
           padding: $spacing-xs $spacing-sm;
           border-radius: $radius-md;
         }
@@ -164,15 +195,15 @@
     }
 
     &::-webkit-scrollbar-track {
-      background: alpha($border-color, 0.1);
+      background: rgba($border-color, 0.1);
     }
 
     &::-webkit-scrollbar-thumb {
-      background: alpha($border-color, 0.3);
+      background: rgba($border-color, 0.3);
       border-radius: 3px;
 
       &:hover {
-        background: alpha($border-color, 0.5);
+        background: rgba($border-color, 0.5);
       }
     }
   }
@@ -249,7 +280,7 @@
       }
 
       .empty-tips {
-        background: alpha($border-color, 0.05);
+        background: rgba($border-color, 0.05);
         border-radius: $radius-md;
         padding: $spacing-lg;
         margin-top: $spacing-xl;
@@ -286,8 +317,8 @@
   // Footer section
   &__footer {
     padding: $spacing-md $spacing-lg;
-    border-top: 1px solid alpha($border-color, 0.2);
-    background: alpha($border-color, 0.02);
+    border-top: 1px solid rgba($border-color, 0.2);
+    background: rgba($border-color, 0.02);
     flex-shrink: 0;
 
     .footer-info {
@@ -311,7 +342,7 @@
 
     .footer-tip {
       font-size: $font-xs;
-      color: alpha($text-secondary, 0.8);
+      color: rgba($text-secondary, 0.8);
       text-align: center;
     }
   }
@@ -324,7 +355,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: alpha($dark-bg, 0.8);
+  background: rgba($dark-bg, 0.8);
   backdrop-filter: blur(4px);
   z-index: 1000;
   opacity: 0;
@@ -357,17 +388,17 @@
       position: absolute;
       top: $spacing-sm;
       right: $spacing-sm;
-      color: alpha($text-secondary, 0.6);
+      color: rgba($text-secondary, 0.6);
       font-size: $font-xs;
       cursor: grab;
       padding: $spacing-xs;
       border-radius: $radius-sm;
       transition: all 0.2s ease;
-      background: alpha($card-bg, 0.8);
+      background: rgba($card-bg, 0.8);
 
       &:hover {
         color: $text-secondary;
-        background: alpha($border-color, 0.2);
+        background: rgba($border-color, 0.2);
       }
 
       &:active {
@@ -382,7 +413,7 @@
   display: flex;
   flex-direction: column;
   gap: 1px;
-  background: alpha($border-color, 0.1);
+  background: rgba($border-color, 0.1);
   border-radius: $radius-md;
   overflow: hidden;
 
@@ -395,12 +426,12 @@
     position: relative;
 
     &:hover {
-      background: alpha($border-color, 0.05);
+      background: rgba($border-color, 0.05);
       transform: translateX(2px);
     }
 
     &--drag-over {
-      background: alpha($accent-blue, 0.1);
+      background: rgba($accent-blue, 0.1);
       border: 1px solid $accent-blue;
     }
 
@@ -479,7 +510,7 @@
         @extend .btn--sm;
         width: 24px;
         height: 24px;
-        color: alpha($primary-red, 0.6);
+        color: rgba($primary-red, 0.6);
         font-size: $font-xs;
         opacity: 0;
         transition: all 0.2s ease;
@@ -491,7 +522,7 @@
       }
 
       .drag-handle {
-        color: alpha($text-secondary, 0.6);
+        color: rgba($text-secondary, 0.6);
         font-size: $font-xs;
         cursor: grab;
         padding: $spacing-xs;
@@ -707,7 +738,7 @@
   }
 
   .favorites-table .favorite-row {
-    border: 1px solid alpha($border-color, 0.3);
+    border: 1px solid rgba($border-color, 0.3);
   }
 }
 

@@ -43,9 +43,17 @@
   }
 
   &__container {
-    @extend .container;
-    padding-top: $spacing-xl;
-    padding-bottom: $spacing-3xl;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: $spacing-xl $spacing-md;
+
+    @include tablet {
+      padding: $spacing-xl $spacing-lg;
+    }
+
+    @include desktop {
+      padding: $spacing-xl $spacing-xl;
+    }
   }
 
   // Hero section
@@ -133,16 +141,16 @@
       .stat-item {
         text-align: center;
         padding: $spacing-md;
-        background: alpha($card-bg, 0.3);
+        background: rgba($card-bg, 0.3);
         border-radius: $radius-lg;
-        border: 1px solid alpha($border-color, 0.2);
+        border: 1px solid rgba($border-color, 0.2);
         backdrop-filter: blur(10px);
         transition: all 0.3s ease;
 
         &:hover {
           transform: translateY(-4px);
-          background: alpha($card-bg, 0.5);
-          border-color: alpha($border-color, 0.4);
+          background: rgba($card-bg, 0.5);
+          border-color: rgba($border-color, 0.4);
         }
 
         .stat-value {
@@ -192,8 +200,8 @@
     .selected-coin-header {
       @include flex-between;
       padding: $spacing-lg;
-      border-bottom: 1px solid alpha($border-color, 0.2);
-      background: alpha($border-color, 0.05);
+      border-bottom: 1px solid rgba($border-color, 0.2);
+      background: rgba($border-color, 0.05);
 
       .coin-info {
         display: flex;
@@ -236,15 +244,22 @@
       }
 
       .close-btn {
-        @extend .btn--icon;
         width: 40px;
         height: 40px;
+        background: none;
+        border: none;
         color: $text-secondary;
         font-size: $font-lg;
+        cursor: pointer;
+        border-radius: $radius-md;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         &:hover {
           color: $text-primary;
-          background: alpha($border-color, 0.2);
+          background: rgba($border-color, 0.2);
         }
       }
     }
@@ -303,12 +318,11 @@
 
     .retry-button,
     .refresh-button {
-      @extend .btn;
-      @extend .btn--primary;
+      @include button-primary;
     }
 
     .refresh-button {
-      @extend .btn--secondary;
+      @include button-secondary;
     }
   }
 }
@@ -318,9 +332,9 @@
   position: fixed;
   bottom: $spacing-lg;
   right: $spacing-lg;
-  background: alpha($card-bg, 0.9);
+  background: rgba($card-bg, 0.9);
   backdrop-filter: blur(10px);
-  border: 1px solid alpha($border-color, 0.3);
+  border: 1px solid rgba($border-color, 0.3);
   border-radius: $radius-lg;
   padding: $spacing-md;
   opacity: 0;
@@ -352,14 +366,14 @@
     color: $text-secondary;
 
     kbd {
-      background: alpha($border-color, 0.3);
+      background: rgba($border-color, 0.3);
       color: $text-primary;
       padding: 2px 6px;
       border-radius: $radius-sm;
       font-size: 0.65rem;
       font-family: $font-mono;
-      border: 1px solid alpha($border-color, 0.5);
-      box-shadow: 0 1px 2px alpha($dark-bg, 0.2);
+      border: 1px solid rgba($border-color, 0.5);
+      box-shadow: 0 1px 2px rgba($dark-bg, 0.2);
     }
   }
 
@@ -378,8 +392,7 @@
     }
 
     &__container {
-      padding-top: $spacing-lg;
-      padding-bottom: $spacing-xl;
+      padding: $spacing-lg $spacing-md;
     }
 
     &__hero {
@@ -424,29 +437,61 @@
   }
 }
 
-// Print styles
-@media print {
-  .dashboard {
-    background: white;
-    color: black;
-
-    &__hero {
-      background: none;
-      padding: $spacing-lg 0;
-    }
-
-    .keyboard-shortcuts,
-    .favorites-list {
-      display: none;
-    }
-
-    .dashboard__selected-coin .close-btn {
-      display: none;
-    }
+// Animations
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-// High contrast mode
+// Theme variants
+.theme-light {
+  .dashboard {
+    &__hero {
+      background: linear-gradient(
+        135deg,
+        rgba($primary-green, 0.08) 0%,
+        rgba($accent-blue, 0.08) 50%,
+        rgba($primary-red, 0.08) 100%
+      );
+
+      .hero-title {
+        color: #1f2937;
+      }
+
+      .market-stats .stat-item {
+        background: rgba(white, 0.7);
+        border-color: rgba(#e5e7eb, 0.5);
+
+        &:hover {
+          background: rgba(white, 0.9);
+        }
+      }
+    }
+
+    &__selected-coin {
+      background: white;
+      border-color: #e5e7eb;
+
+      .selected-coin-header {
+        background: #f9fafb;
+        border-bottom-color: #e5e7eb;
+      }
+    }
+  }
+
+  .keyboard-shortcuts {
+    background: rgba(white, 0.9);
+    border-color: rgba(#e5e7eb, 0.5);
+  }
+}
+
+// High contrast and reduced motion
 @media (prefers-contrast: high) {
   .dashboard {
     &__hero {
@@ -464,7 +509,6 @@
   }
 }
 
-// Reduced motion
 @media (prefers-reduced-motion: reduce) {
   .dashboard {
     &__selected-coin {
@@ -476,94 +520,5 @@
     .keyboard-shortcuts {
       transition: none;
     }
-  }
-}
-
-// Animations
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// Focus management for accessibility
-.dashboard {
-  &:focus-within {
-    .keyboard-shortcuts {
-      opacity: 1;
-    }
-  }
-}
-
-// Loading pulse effect for hero stats
-.dashboard--loading {
-  .market-stats .stat-item {
-    .stat-value,
-    .stat-label {
-      @include loading-pulse;
-    }
-  }
-}
-
-// Dark mode specific adjustments
-.theme-dark {
-  .dashboard {
-    &__hero {
-      .market-stats .stat-item {
-        background: alpha($card-bg, 0.4);
-        border-color: alpha($border-color, 0.3);
-
-        &:hover {
-          background: alpha($card-bg, 0.6);
-        }
-      }
-    }
-  }
-}
-
-// Light mode specific adjustments
-.theme-light {
-  .dashboard {
-    &__hero {
-      background: linear-gradient(
-        135deg,
-        alpha($primary-green, 0.08) 0%,
-        alpha($accent-blue, 0.08) 50%,
-        alpha($primary-red, 0.08) 100%
-      );
-
-      .hero-title {
-        color: #1f2937;
-      }
-
-      .market-stats .stat-item {
-        background: alpha(white, 0.7);
-        border-color: alpha(#e5e7eb, 0.5);
-
-        &:hover {
-          background: alpha(white, 0.9);
-        }
-      }
-    }
-
-    &__selected-coin {
-      background: white;
-      border-color: #e5e7eb;
-
-      .selected-coin-header {
-        background: #f9fafb;
-        border-bottom-color: #e5e7eb;
-      }
-    }
-  }
-
-  .keyboard-shortcuts {
-    background: alpha(white, 0.9);
-    border-color: alpha(#e5e7eb, 0.5);
   }
 }

@@ -2,6 +2,20 @@
 @import "../../styles/abstracts/variables";
 @import "../../styles/abstracts/mixins";
 
+// Button classes
+.btn {
+  @include button-primary;
+
+  &--primary {
+    @include button-primary;
+  }
+
+  &--sm {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-sm;
+  }
+}
+
 .chart {
   @include card;
   position: relative;
