@@ -8,8 +8,8 @@
   justify-content: center;
   min-height: 200px;
   padding: $spacing-xl;
-  background: alpha($primary-red, 0.05);
-  border: 1px solid alpha($primary-red, 0.2);
+  background: rgba($primary-red, 0.05);
+  border: 1px solid rgba($primary-red, 0.2);
   border-radius: $radius-lg;
 
   &__container {
@@ -41,7 +41,7 @@
   &__details {
     margin: $spacing-lg 0;
     text-align: left;
-    background: alpha($border-color, 0.1);
+    background: rgba($border-color, 0.1);
     border-radius: $radius-md;
     padding: $spacing-md;
 
@@ -107,8 +107,8 @@
 .error-fallback {
   padding: $spacing-lg;
   text-align: center;
-  background: alpha($primary-red, 0.05);
-  border: 1px solid alpha($primary-red, 0.2);
+  background: rgba($primary-red, 0.05);
+  border: 1px solid rgba($primary-red, 0.2);
   border-radius: $radius-md;
   color: $text-primary;
 
@@ -132,7 +132,7 @@
     display: flex;
     align-items: center;
     gap: $spacing-sm;
-    background: alpha($primary-red, 0.1);
+    background: rgba($primary-red, 0.1);
 
     span {
       font-size: $font-sm;
@@ -230,7 +230,7 @@
   align-items: center;
   gap: $spacing-sm;
   padding: $spacing-sm;
-  background: alpha($primary-red, 0.1);
+  background: rgba($primary-red, 0.1);
   border-radius: $radius-sm;
   font-size: $font-sm;
 
@@ -321,7 +321,7 @@
   .error-boundary,
   .error-fallback {
     border-width: 2px;
-    background: alpha($primary-red, 0.15);
+    background: rgba($primary-red, 0.15);
   }
 
   .error-boundary__title {
@@ -340,7 +340,7 @@
 // Light theme adjustments
 .theme-light {
   .error-boundary {
-    background: alpha($primary-red, 0.08);
+    background: rgba($primary-red, 0.08);
   }
 
   .error-boundary__stack {

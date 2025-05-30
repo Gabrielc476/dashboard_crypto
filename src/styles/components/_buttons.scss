@@ -92,7 +92,7 @@
 
     &:hover {
       color: $text-primary;
-      background: alpha($border-color, 0.1);
+      background: rgba($border-color, 0.1);
     }
   }
 
@@ -106,7 +106,7 @@
     color: $text-secondary;
 
     &:hover {
-      background: alpha($border-color, 0.2);
+      background: rgba($border-color, 0.2);
       color: $text-primary;
     }
 

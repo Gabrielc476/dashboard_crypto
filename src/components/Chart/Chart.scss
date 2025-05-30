@@ -12,7 +12,7 @@
   &__header {
     @include flex-between;
     padding: $spacing-lg $spacing-lg $spacing-md $spacing-lg;
-    border-bottom: 1px solid alpha($border-color, 0.2);
+    border-bottom: 1px solid rgba($border-color, 0.2);
     flex-wrap: wrap;
     gap: $spacing-md;
 
@@ -49,12 +49,12 @@
 
       &--up {
         color: $primary-green;
-        background: alpha($primary-green, 0.1);
+        background: rgba($primary-green, 0.1);
       }
 
       &--down {
         color: $primary-red;
-        background: alpha($primary-red, 0.1);
+        background: rgba($primary-red, 0.1);
       }
     }
   }
@@ -84,7 +84,7 @@
   // Timeframe selector
   &__timeframes {
     display: flex;
-    background: alpha($border-color, 0.1);
+    background: rgba($border-color, 0.1);
     border-radius: $radius-md;
     padding: 2px;
     flex-wrap: wrap;
@@ -103,7 +103,7 @@
 
       &:hover {
         color: $text-primary;
-        background: alpha($border-color, 0.1);
+        background: rgba($border-color, 0.1);
       }
 
       &--active {
@@ -237,7 +237,7 @@
     border: 1px solid $border-color;
 
     .chart__header {
-      border-bottom-color: alpha($border-color, 0.3);
+      border-bottom-color: rgba($border-color, 0.3);
     }
   }
 }
@@ -498,16 +498,16 @@
   }
 
   &::-webkit-scrollbar-track {
-    background: alpha($border-color, 0.1);
+    background: rgba($border-color, 0.1);
     border-radius: 2px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: alpha($border-color, 0.3);
+    background: rgba($border-color, 0.3);
     border-radius: 2px;
 
     &:hover {
-      background: alpha($border-color, 0.5);
+      background: rgba($border-color, 0.5);
     }
   }
 }

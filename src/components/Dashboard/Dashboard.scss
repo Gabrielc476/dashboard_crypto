@@ -55,9 +55,9 @@
     padding: $spacing-3xl 0;
     background: linear-gradient(
       135deg,
-      alpha($primary-green, 0.05) 0%,
-      alpha($accent-blue, 0.05) 50%,
-      alpha($primary-red, 0.05) 100%
+      rgba($primary-green, 0.05) 0%,
+      rgba($accent-blue, 0.05) 50%,
+      rgba($primary-red, 0.05) 100%
     );
     border-radius: $radius-lg;
     position: relative;

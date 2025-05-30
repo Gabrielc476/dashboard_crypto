@@ -1,7 +1,7 @@
 // Header layout styles
 
 .header {
-  background: alpha($card-bg, 0.9);
+  background: rgba($card-bg, 0.9);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid $border-color;
   position: sticky;
@@ -126,7 +126,7 @@
       font-size: $font-lg;
 
       &:hover {
-        background: alpha($border-color, 0.2);
+        background: rgba($border-color, 0.2);
       }
     }
 
@@ -187,7 +187,7 @@
 
       .nav-item {
         padding: $spacing-sm 0;
-        border-bottom: 1px solid alpha($border-color, 0.3);
+        border-bottom: 1px solid rgba($border-color, 0.3);
 
         &:last-child {
           border-bottom: none;
@@ -208,7 +208,7 @@
 
   // Scroll effects
   &--scrolled {
-    background: alpha($card-bg, 0.95);
+    background: rgba($card-bg, 0.95);
     box-shadow: $shadow-light;
   }
 
@@ -222,7 +222,7 @@
   align-items: center;
   gap: $spacing-xs;
   padding: $spacing-xs $spacing-sm;
-  background: alpha($primary-green, 0.1);
+  background: rgba($primary-green, 0.1);
   border-radius: $radius-md;
   font-size: $font-sm;
 
@@ -240,7 +240,7 @@
   }
 
   &--closed {
-    background: alpha($primary-red, 0.1);
+    background: rgba($primary-red, 0.1);
 
     .status-dot {
       background: $primary-red;

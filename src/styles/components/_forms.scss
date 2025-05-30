@@ -41,13 +41,13 @@
 
   &:focus {
     border-color: $accent-blue;
-    box-shadow: 0 0 0 3px alpha($accent-blue, 0.1);
+    box-shadow: 0 0 0 3px rgba($accent-blue, 0.1);
   }
 
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
-    background: alpha($border-color, 0.1);
+    background: rgba($border-color, 0.1);
   }
 }
 
@@ -87,12 +87,12 @@ select {
     padding-right: calc(#{$spacing-md} + 32px);
     font-size: $font-lg;
     border-radius: 50px;
-    background: alpha($card-bg, 0.8);
+    background: rgba($card-bg, 0.8);
     backdrop-filter: blur(10px);
 
     &:focus {
       background: $card-bg;
-      box-shadow: $shadow-medium, 0 0 0 3px alpha($accent-blue, 0.1);
+      box-shadow: $shadow-medium, 0 0 0 3px rgba($accent-blue, 0.1);
     }
   }
 
@@ -114,7 +114,7 @@ select {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: alpha($border-color, 0.5);
+    background: rgba($border-color, 0.5);
     color: $text-secondary;
     display: flex;
     align-items: center;
@@ -125,7 +125,7 @@ select {
     pointer-events: none;
 
     &:hover {
-      background: alpha($border-color, 0.8);
+      background: rgba($border-color, 0.8);
       color: $text-primary;
     }
 
@@ -165,11 +165,11 @@ select {
       padding: $spacing-md;
       cursor: pointer;
       transition: background 0.2s ease;
-      border-bottom: 1px solid alpha($border-color, 0.3);
+      border-bottom: 1px solid rgba($border-color, 0.3);
 
       &:hover,
       &--highlighted {
-        background: alpha($border-color, 0.2);
+        background: rgba($border-color, 0.2);
       }
 
       &:last-child {
@@ -238,7 +238,7 @@ select {
     }
 
     &:focus {
-      box-shadow: 0 0 0 3px alpha($primary-green, 0.2);
+      box-shadow: 0 0 0 3px rgba($primary-green, 0.2);
     }
   }
 
@@ -285,7 +285,7 @@ select {
     }
 
     &:focus {
-      box-shadow: 0 0 0 3px alpha($primary-green, 0.2);
+      box-shadow: 0 0 0 3px rgba($primary-green, 0.2);
     }
   }
 

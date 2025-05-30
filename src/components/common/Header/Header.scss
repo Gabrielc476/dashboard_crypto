@@ -10,7 +10,7 @@
 
   // Dynamic background opacity based on scroll
   &--scrolled {
-    background: alpha($card-bg, 0.95);
+    background: rgba($card-bg, 0.95);
     backdrop-filter: blur(20px);
     box-shadow: $shadow-medium;
 
@@ -51,7 +51,7 @@
         left: 50%;
         width: 0;
         height: 0;
-        background: alpha(white, 0.2);
+        background: rgba(white, 0.2);
         border-radius: 50%;
         transition: all 0.3s ease;
         transform: translate(-50%, -50%);
@@ -143,7 +143,7 @@
         left: 50%;
         width: 0;
         height: 0;
-        background: alpha($accent-blue, 0.2);
+        background: rgba($accent-blue, 0.2);
         border-radius: 50%;
         transition: all 0.3s ease;
         transform: translate(-50%, -50%);
@@ -164,7 +164,7 @@
       overflow: hidden;
 
       &:hover {
-        background: alpha($primary-red, 0.1);
+        background: rgba($primary-red, 0.1);
         color: $primary-red;
         transform: translateY(-2px);
 
@@ -221,7 +221,7 @@
           border-radius: $radius-sm;
 
           &:hover {
-            background: alpha($border-color, 0.1);
+            background: rgba($border-color, 0.1);
             color: $primary-green;
             transform: translateX(4px);
           }
@@ -366,11 +366,11 @@
 .theme-light {
   .header {
     &--scrolled {
-      background: alpha(white, 0.95);
+      background: rgba(white, 0.95);
     }
 
     .market-status {
-      background: alpha($primary-green, 0.05);
+      background: rgba($primary-green, 0.05);
     }
   }
 }
@@ -378,11 +378,11 @@
 .theme-dark {
   .header {
     .logo {
-      box-shadow: 0 0 20px alpha($primary-green, 0.3);
+      box-shadow: 0 0 20px rgba($primary-green, 0.3);
     }
 
     &--scrolled {
-      border-bottom-color: alpha($primary-green, 0.2);
+      border-bottom-color: rgba($primary-green, 0.2);
     }
   }
 }

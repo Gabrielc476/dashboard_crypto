@@ -231,7 +231,7 @@
 // Favorite button
 .favorite-btn {
   @extend .btn--icon;
-  color: alpha($primary-red, 0.6);
+  color: rgba($primary-red, 0.6);
   font-size: $font-lg;
   transition: all 0.3s ease;
   flex-shrink: 0;
@@ -377,7 +377,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: alpha($card-bg, 0.8);
+  background: rgba($card-bg, 0.8);
   backdrop-filter: blur(2px);
   display: flex;
   align-items: center;

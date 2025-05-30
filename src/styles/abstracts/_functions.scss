@@ -18,10 +18,8 @@
   @return darken($color, $percentage);
 }
 
-// Alpha transparency (renamed to avoid conflict with Sass built-in)
-@function alpha-color($color, $opacity) {
-  @return rgba($color, $opacity);
-}
+// Note: Removed alpha function to avoid conflict with Sass built-in alpha()
+// Use rgba($color, $opacity) directly instead
 
 // Calculate contrast ratio for accessibility
 @function contrast-ratio($color1, $color2) {
