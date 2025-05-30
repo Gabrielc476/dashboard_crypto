@@ -1,0 +1,350 @@
+// src/components/common/ErrorBoundary/ErrorBoundary.scss
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.error-boundary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  padding: $spacing-xl;
+  background: alpha($primary-red, 0.05);
+  border: 1px solid alpha($primary-red, 0.2);
+  border-radius: $radius-lg;
+
+  &__container {
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+  }
+
+  &__icon {
+    font-size: 3rem;
+    margin-bottom: $spacing-lg;
+    display: block;
+  }
+
+  &__title {
+    font-size: $font-2xl;
+    font-weight: $font-bold;
+    color: $text-primary;
+    margin-bottom: $spacing-md;
+  }
+
+  &__message {
+    color: $text-secondary;
+    font-size: $font-md;
+    line-height: $leading-relaxed;
+    margin-bottom: $spacing-lg;
+  }
+
+  &__details {
+    margin: $spacing-lg 0;
+    text-align: left;
+    background: alpha($border-color, 0.1);
+    border-radius: $radius-md;
+    padding: $spacing-md;
+
+    summary {
+      cursor: pointer;
+      font-weight: $font-medium;
+      color: $text-primary;
+      margin-bottom: $spacing-sm;
+
+      &:hover {
+        color: $primary-red;
+      }
+    }
+  }
+
+  &__error-info {
+    font-size: $font-sm;
+    color: $text-secondary;
+
+    p {
+      margin-bottom: $spacing-sm;
+    }
+
+    strong {
+      color: $text-primary;
+    }
+  }
+
+  &__stack {
+    background: $dark-bg;
+    color: $text-primary;
+    padding: $spacing-sm;
+    border-radius: $radius-sm;
+    font-family: $font-mono;
+    font-size: $font-xs;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    margin: $spacing-sm 0;
+    border: 1px solid $border-color;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-md;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__retry-btn {
+    @extend .btn;
+    @extend .btn--primary;
+    min-width: 120px;
+  }
+
+  &__reload-btn {
+    @extend .btn;
+    @extend .btn--secondary;
+    min-width: 120px;
+  }
+}
+
+// Error fallback variants
+.error-fallback {
+  padding: $spacing-lg;
+  text-align: center;
+  background: alpha($primary-red, 0.05);
+  border: 1px solid alpha($primary-red, 0.2);
+  border-radius: $radius-md;
+  color: $text-primary;
+
+  &--simple {
+    padding: $spacing-md;
+
+    p {
+      margin-bottom: $spacing-sm;
+      color: $text-secondary;
+    }
+
+    button {
+      @extend .btn;
+      @extend .btn--sm;
+      @extend .btn--primary;
+    }
+  }
+
+  &--minimal {
+    padding: $spacing-sm;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    background: alpha($primary-red, 0.1);
+
+    span {
+      font-size: $font-sm;
+      color: $primary-red;
+    }
+
+    button {
+      @extend .btn;
+      @extend .btn--sm;
+      @extend .btn--danger;
+      padding: $spacing-xs $spacing-sm;
+    }
+  }
+
+  &--detailed {
+    max-width: 400px;
+    margin: 0 auto;
+
+    h3 {
+      color: $primary-red;
+      margin-bottom: $spacing-md;
+      font-size: $font-xl;
+    }
+
+    p {
+      color: $text-secondary;
+      margin-bottom: $spacing-lg;
+      line-height: $leading-relaxed;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+    justify-content: center;
+
+    button {
+      @extend .btn;
+      @extend .btn--sm;
+
+      &:first-child {
+        @extend .btn--primary;
+      }
+
+      &:last-child {
+        @extend .btn--secondary;
+      }
+    }
+  }
+}
+
+// Full page error boundary
+.error-boundary--fullpage {
+  min-height: 100vh;
+  background: $dark-bg;
+
+  .error-boundary__container {
+    max-width: 600px;
+  }
+
+  .error-boundary__icon {
+    font-size: 4rem;
+    margin-bottom: $spacing-xl;
+  }
+
+  .error-boundary__title {
+    font-size: $font-3xl;
+  }
+}
+
+// Component error boundary (smaller)
+.error-boundary--component {
+  min-height: 100px;
+  padding: $spacing-lg;
+
+  .error-boundary__icon {
+    font-size: 2rem;
+    margin-bottom: $spacing-md;
+  }
+
+  .error-boundary__title {
+    font-size: $font-lg;
+    margin-bottom: $spacing-sm;
+  }
+
+  .error-boundary__message {
+    font-size: $font-sm;
+    margin-bottom: $spacing-md;
+  }
+}
+
+// Inline error boundary (very compact)
+.error-boundary--inline {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm;
+  background: alpha($primary-red, 0.1);
+  border-radius: $radius-sm;
+  font-size: $font-sm;
+
+  .error-boundary__icon {
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .error-boundary__title,
+  .error-boundary__message {
+    margin: 0;
+    font-size: inherit;
+  }
+
+  .error-boundary__actions {
+    margin-left: auto;
+
+    button {
+      @extend .btn;
+      @extend .btn--sm;
+      @extend .btn--ghost;
+      padding: $spacing-xs;
+      min-width: auto;
+    }
+  }
+}
+
+// Responsive adjustments
+@include mobile {
+  .error-boundary {
+    padding: $spacing-lg $spacing-md;
+
+    &__title {
+      font-size: $font-xl;
+    }
+
+    &__message {
+      font-size: $font-sm;
+    }
+
+    &__actions {
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  .error-fallback {
+    &--detailed {
+      padding: $spacing-md;
+
+      h3 {
+        font-size: $font-lg;
+      }
+    }
+
+    &__actions {
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// Animation for error appearance
+.error-boundary,
+.error-fallback {
+  animation: errorSlideIn 0.3s ease-out;
+}
+
+@keyframes errorSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .error-boundary,
+  .error-fallback {
+    border-width: 2px;
+    background: alpha($primary-red, 0.15);
+  }
+
+  .error-boundary__title {
+    color: $primary-red;
+  }
+}
+
+// Dark theme adjustments
+.theme-dark {
+  .error-boundary__stack {
+    background: lighten($dark-bg, 5%);
+    border-color: lighten($border-color, 10%);
+  }
+}
+
+// Light theme adjustments
+.theme-light {
+  .error-boundary {
+    background: alpha($primary-red, 0.08);
+  }
+
+  .error-boundary__stack {
+    background: darken(white, 5%);
+    color: $dark-bg;
+  }
+}

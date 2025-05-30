@@ -1,0 +1,574 @@
+// src/components/CoinCard/CoinCard.scss
+@import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/mixins";
+
+.coin-card {
+  @include card;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, $primary-green, $accent-blue);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  // Sizes
+  &--small {
+    padding: $spacing-md;
+
+    .coin-card__header {
+      margin-bottom: $spacing-sm;
+    }
+
+    .coin-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .coin-name {
+      font-size: $font-sm;
+    }
+
+    .coin-symbol {
+      font-size: $font-xs;
+    }
+  }
+
+  &--medium {
+    padding: $spacing-lg;
+  }
+
+  &--large {
+    padding: $spacing-xl;
+
+    .coin-icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .coin-name {
+      font-size: $font-lg;
+    }
+  }
+
+  // Interactive states
+  &--clickable {
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: $shadow-heavy;
+    }
+
+    &:focus {
+      outline: 2px solid $accent-blue;
+      outline-offset: 2px;
+    }
+  }
+
+  &--animated {
+    .coin-card__price {
+      transition: all 0.3s ease;
+    }
+
+    &:hover .coin-card__price {
+      transform: scale(1.02);
+    }
+  }
+
+  &--hovered {
+    .coin-card__chart {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .coin-card__trend {
+      transform: scale(1.1);
+    }
+  }
+
+  // Loading state
+  &--loading {
+    pointer-events: none;
+    opacity: 0.7;
+
+    .coin-icon,
+    .coin-name,
+    .coin-symbol,
+    .favorite-btn {
+      @include loading-pulse;
+    }
+  }
+
+  // Compact variant
+  &--compact {
+    padding: $spacing-sm $spacing-md;
+
+    .coin-card__header {
+      margin-bottom: $spacing-xs;
+    }
+
+    .coin-card__price {
+      .price-indicator {
+        flex-direction: row;
+        align-items: center;
+        gap: $spacing-sm;
+      }
+    }
+  }
+}
+
+// Header section
+.coin-card__header {
+  @include flex-between;
+  margin-bottom: $spacing-md;
+
+  .coin-info {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    flex: 1;
+    min-width: 0; // Allow text truncation
+  }
+}
+
+// Coin icon container
+.coin-icon-container {
+  position: relative;
+  flex-shrink: 0;
+
+  .coin-rank {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: $accent-blue;
+    color: white;
+    font-size: $font-xs;
+    font-weight: $font-bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 20px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    box-shadow: $shadow-light;
+  }
+}
+
+// Coin icon
+.coin-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: all 0.3s ease;
+
+  &--placeholder {
+    background: linear-gradient(135deg, $primary-green, $accent-blue);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: $font-bold;
+    font-size: $font-sm;
+    text-transform: uppercase;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+// Coin details
+.coin-details {
+  flex: 1;
+  min-width: 0;
+
+  .coin-name {
+    margin: 0;
+    font-size: $font-md;
+    font-weight: $font-semibold;
+    color: $text-primary;
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    margin-bottom: $spacing-xs;
+
+    // Text truncation
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    .popular-badge {
+      font-size: $font-xs;
+      animation: pulse 2s infinite;
+      flex-shrink: 0;
+    }
+  }
+
+  .coin-symbol {
+    font-size: $font-sm;
+    color: $text-secondary;
+    text-transform: uppercase;
+    font-weight: $font-medium;
+  }
+}
+
+// Favorite button
+.favorite-btn {
+  @extend .btn--icon;
+  color: alpha($primary-red, 0.6);
+  font-size: $font-lg;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+
+  &:hover {
+    color: $primary-red;
+    transform: scale(1.1);
+  }
+
+  &--active {
+    color: $primary-red;
+    animation: heartbeat 0.6s ease-in-out;
+
+    &:hover {
+      animation: none;
+      transform: scale(1.2);
+    }
+  }
+}
+
+// Price section
+.coin-card__price {
+  margin-bottom: $spacing-md;
+  transition: all 0.3s ease;
+}
+
+// Details section
+.coin-card__details {
+  margin-bottom: $spacing-md;
+
+  .detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-xs;
+    padding: $spacing-xs 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .detail-label {
+      font-size: $font-xs;
+      color: $text-secondary;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: $font-medium;
+    }
+
+    .detail-value {
+      font-size: $font-sm;
+      color: $text-primary;
+      font-weight: $font-medium;
+    }
+  }
+
+  .price-range {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: $font-xs;
+
+    .range-low {
+      color: $primary-red;
+    }
+
+    .range-separator {
+      color: $text-secondary;
+    }
+
+    .range-high {
+      color: $primary-green;
+    }
+  }
+}
+
+// Chart section
+.coin-card__chart {
+  margin-bottom: $spacing-sm;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+  transform: translateY(4px);
+
+  &:hover {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Mini chart styles
+.mini-chart {
+  width: 100%;
+  height: 60px;
+  border-radius: $radius-sm;
+  overflow: hidden;
+
+  &__svg {
+    width: 100%;
+    height: 100%;
+    transition: all 0.3s ease;
+
+    &--animated {
+      .mini-chart__line {
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+        animation: drawLine 2s ease-out forwards;
+      }
+
+      .mini-chart__area {
+        opacity: 0;
+        animation: fadeInArea 1.5s ease-out 0.5s forwards;
+      }
+    }
+  }
+
+  &__line {
+    transition: all 0.3s ease;
+  }
+
+  &__area {
+    transition: all 0.3s ease;
+  }
+}
+
+// Trend arrow
+.coin-card__trend {
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+
+  &:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+// Loading overlay
+.coin-card__loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: alpha($card-bg, 0.8);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+// Grid layout for multiple cards
+.coin-cards-grid {
+  display: grid;
+  gap: $spacing-lg;
+  grid-template-columns: 1fr;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include desktop {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: $large-desktop) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// List layout for compact cards
+.coin-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  .coin-card {
+    @include flex-between;
+    padding: $spacing-md;
+
+    &:hover {
+      transform: translateX(4px);
+    }
+
+    .coin-card__header {
+      margin-bottom: 0;
+      flex: 1;
+    }
+
+    .coin-card__price {
+      margin-bottom: 0;
+      text-align: right;
+    }
+
+    .coin-card__details,
+    .coin-card__chart {
+      display: none;
+    }
+  }
+}
+
+// Responsive adjustments
+@include mobile {
+  .coin-card {
+    padding: $spacing-md;
+
+    &--large {
+      padding: $spacing-lg;
+
+      .coin-icon {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    .coin-card__header {
+      .coin-info {
+        gap: $spacing-xs;
+      }
+    }
+
+    .coin-card__details {
+      .detail-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: $spacing-xs;
+
+        .detail-label {
+          font-size: 0.65rem;
+        }
+
+        .detail-value {
+          font-size: $font-xs;
+        }
+      }
+    }
+  }
+
+  .coin-cards-grid {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+}
+
+// Animations
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  25%,
+  75% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeInArea {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+// Theme variants
+.theme-light {
+  .coin-card {
+    &::before {
+      background: linear-gradient(90deg, $primary-green, $accent-blue);
+    }
+  }
+
+  .coin-icon--placeholder {
+    background: linear-gradient(
+      135deg,
+      lighten($primary-green, 10%),
+      lighten($accent-blue, 10%)
+    );
+  }
+}
+
+.theme-dark {
+  .coin-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .coin-card {
+    border: 2px solid $border-color;
+
+    &:hover {
+      border-color: $accent-blue;
+    }
+  }
+
+  .favorite-btn {
+    border: 1px solid currentColor;
+    border-radius: 50%;
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .coin-card,
+  .coin-icon,
+  .favorite-btn,
+  .mini-chart__svg {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .coin-card--clickable:hover {
+    transform: none;
+  }
+}

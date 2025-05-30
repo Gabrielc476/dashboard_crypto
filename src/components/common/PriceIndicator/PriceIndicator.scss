@@ -1,0 +1,423 @@
+// src/components/common/PriceIndicator/PriceIndicator.scss
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.price-indicator {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  &__price {
+    font-weight: $font-bold;
+    color: $text-primary;
+  }
+
+  &__change {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-weight: $font-medium;
+
+    &--positive {
+      color: $primary-green;
+    }
+
+    &--negative {
+      color: $primary-red;
+    }
+
+    &--neutral {
+      color: $text-secondary;
+    }
+  }
+
+  &__icon {
+    font-size: 0.8em;
+    line-height: 1;
+  }
+
+  &__percentage {
+    font-size: inherit;
+  }
+
+  // Sizes
+  &--small {
+    .price-indicator__price {
+      font-size: $font-sm;
+    }
+
+    .price-indicator__change {
+      font-size: $font-xs;
+    }
+  }
+
+  &--medium {
+    .price-indicator__price {
+      font-size: $font-lg;
+    }
+
+    .price-indicator__change {
+      font-size: $font-sm;
+    }
+  }
+
+  &--large {
+    .price-indicator__price {
+      font-size: $font-xl;
+    }
+
+    .price-indicator__change {
+      font-size: $font-md;
+    }
+  }
+
+  // Trend variants
+  &--up {
+    .price-indicator__change {
+      color: $primary-green;
+    }
+  }
+
+  &--down {
+    .price-indicator__change {
+      color: $primary-red;
+    }
+  }
+
+  &--neutral {
+    .price-indicator__change {
+      color: $text-secondary;
+    }
+  }
+
+  // Interactive variant
+  &--clickable {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &:focus {
+      outline: 2px solid $accent-blue;
+      outline-offset: 2px;
+      border-radius: $radius-sm;
+    }
+  }
+
+  // Animated variant
+  &--animated {
+    .price-indicator__price {
+      animation: priceUpdate 0.5s ease-out;
+    }
+
+    .price-indicator__change {
+      animation: changeUpdate 0.3s ease-out 0.2s both;
+    }
+  }
+}
+
+// Price change badge
+.price-change-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-md;
+  font-weight: $font-medium;
+  line-height: 1;
+
+  &__icon {
+    font-size: 0.8em;
+  }
+
+  &__text {
+    font-size: inherit;
+  }
+
+  // Sizes
+  &--small {
+    padding: 2px $spacing-xs;
+    font-size: $font-xs;
+
+    &__icon {
+      font-size: 0.7em;
+    }
+  }
+
+  &--medium {
+    font-size: $font-sm;
+  }
+
+  &--large {
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-md;
+  }
+
+  // Trend colors
+  &--up {
+    background: alpha($primary-green, 0.15);
+    color: $primary-green;
+  }
+
+  &--down {
+    background: alpha($primary-red, 0.15);
+    color: $primary-red;
+  }
+
+  &--neutral {
+    background: alpha($text-secondary, 0.15);
+    color: $text-secondary;
+  }
+}
+
+// Simple price display
+.price-display {
+  font-weight: $font-bold;
+  color: $text-primary;
+
+  &--small {
+    font-size: $font-sm;
+  }
+
+  &--medium {
+    font-size: $font-lg;
+  }
+
+  &--large {
+    font-size: $font-xl;
+  }
+
+  &--extra-large {
+    font-size: $font-2xl;
+  }
+}
+
+// Trend arrow
+.trend-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-weight: $font-bold;
+
+  &--small {
+    font-size: $font-xs;
+  }
+
+  &--medium {
+    font-size: $font-sm;
+  }
+
+  &--large {
+    font-size: $font-md;
+  }
+
+  &--up {
+    color: $primary-green;
+    animation: bounceUp 0.5s ease-out;
+  }
+
+  &--down {
+    color: $primary-red;
+    animation: bounceDown 0.5s ease-out;
+  }
+
+  &--neutral {
+    color: $text-secondary;
+  }
+}
+
+// Price comparison
+.price-comparison {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  &__change {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-size: $font-sm;
+  }
+
+  &__difference {
+    color: $text-secondary;
+    font-weight: $font-medium;
+  }
+}
+
+// Inline price indicator (horizontal layout)
+.price-indicator--inline {
+  flex-direction: row;
+  align-items: center;
+  gap: $spacing-sm;
+
+  .price-indicator__change {
+    margin-left: auto;
+  }
+}
+
+// Compact variant
+.price-indicator--compact {
+  gap: 2px;
+
+  .price-indicator__price {
+    line-height: 1.2;
+  }
+
+  .price-indicator__change {
+    font-size: 0.85em;
+    line-height: 1.2;
+  }
+}
+
+// Price movement animation overlay
+.price-indicator__flash {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      alpha($primary-green, 0.3),
+      transparent
+    );
+    animation: priceFlash 0.8s ease-out;
+  }
+
+  &--negative::after {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      alpha($primary-red, 0.3),
+      transparent
+    );
+  }
+}
+
+// Responsive adjustments
+@include mobile {
+  .price-indicator {
+    &--large {
+      .price-indicator__price {
+        font-size: $font-lg;
+      }
+
+      .price-indicator__change {
+        font-size: $font-sm;
+      }
+    }
+  }
+
+  .price-change-badge {
+    &--large {
+      font-size: $font-sm;
+    }
+  }
+
+  .price-display {
+    &--extra-large {
+      font-size: $font-xl;
+    }
+  }
+}
+
+// Animations
+@keyframes priceUpdate {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes changeUpdate {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceUp {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceDown {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes priceFlash {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .price-indicator {
+    &__change--positive {
+      background: alpha($primary-green, 0.2);
+    }
+
+    &__change--negative {
+      background: alpha($primary-red, 0.2);
+    }
+  }
+
+  .price-change-badge {
+    border: 1px solid currentColor;
+  }
+}
+
+// Accessibility: Reduce motion
+@media (prefers-reduced-motion: reduce) {
+  .price-indicator--animated,
+  .trend-arrow,
+  .price-indicator__flash {
+    animation: none;
+  }
+
+  .price-indicator--clickable {
+    &:hover {
+      transform: none;
+    }
+  }
+}

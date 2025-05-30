@@ -1,0 +1,592 @@
+// src/components/CoinList/CoinList.scss
+@import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/mixins";
+
+.coin-list {
+  width: 100%;
+
+  // Header section
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-xl;
+    padding: $spacing-md 0;
+    border-bottom: 1px solid alpha($border-color, 0.3);
+    flex-wrap: wrap;
+    gap: $spacing-md;
+
+    @include mobile {
+      flex-direction: column;
+      align-items: stretch;
+      gap: $spacing-sm;
+    }
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+
+    .coin-count {
+      font-size: $font-sm;
+      color: $text-secondary;
+      font-weight: $font-medium;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+    flex-wrap: wrap;
+
+    @include mobile {
+      justify-content: space-between;
+      gap: $spacing-sm;
+    }
+  }
+
+  // Sort section
+  &__sort {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+
+    .sort-label {
+      font-size: $font-sm;
+      color: $text-secondary;
+      font-weight: $font-medium;
+      white-space: nowrap;
+    }
+
+    .sort-select {
+      @extend %input-base;
+      padding: $spacing-sm $spacing-md;
+      font-size: $font-sm;
+      min-width: 150px;
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23a0a3bd' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right $spacing-sm center;
+      background-size: 12px;
+      padding-right: calc(#{$spacing-md} + 16px);
+      appearance: none;
+      cursor: pointer;
+
+      &:focus {
+        border-color: $accent-blue;
+      }
+    }
+  }
+
+  // View toggle section
+  &__view-toggle {
+    display: flex;
+    background: alpha($border-color, 0.1);
+    border-radius: $radius-md;
+    padding: 2px;
+
+    .view-btn {
+      padding: $spacing-xs $spacing-sm;
+      background: none;
+      border: none;
+      color: $text-secondary;
+      font-size: $font-md;
+      cursor: pointer;
+      border-radius: $radius-sm;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      height: 32px;
+
+      &:hover {
+        color: $text-primary;
+        background: alpha($border-color, 0.1);
+      }
+
+      &--active {
+        background: $accent-blue;
+        color: white;
+
+        &:hover {
+          background: lighten($accent-blue, 5%);
+          color: white;
+        }
+      }
+    }
+  }
+
+  // Content section
+  &__content {
+    // Grid layout
+    &--grid {
+      display: grid;
+      gap: $spacing-lg;
+      grid-template-columns: 1fr;
+
+      @include tablet {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @include desktop {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      @media (min-width: $large-desktop) {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    // List layout
+    &--list {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-md;
+
+      .coin-card {
+        @include flex-between;
+        padding: $spacing-md $spacing-lg;
+
+        &:hover {
+          transform: translateX(4px);
+        }
+
+        .coin-card__header {
+          margin-bottom: 0;
+          flex: 1;
+        }
+
+        .coin-card__price {
+          margin-bottom: 0;
+          text-align: right;
+        }
+      }
+    }
+
+    // Table layout
+    &--table {
+      .coin-table-container {
+        overflow-x: auto;
+        border-radius: $radius-lg;
+        border: 1px solid $border-color;
+        background: $card-bg;
+      }
+    }
+  }
+
+  // Loading state
+  &--loading {
+    .coin-list__content--grid {
+      .coin-card {
+        @include loading-pulse;
+      }
+    }
+  }
+
+  // Error state
+  &--error,
+  &--empty {
+    .coin-list__error,
+    .coin-list__empty {
+      text-align: center;
+      padding: $spacing-3xl $spacing-lg;
+      background: alpha($border-color, 0.05);
+      border-radius: $radius-lg;
+      border: 1px solid alpha($border-color, 0.2);
+
+      .error-icon,
+      .empty-icon {
+        font-size: 3rem;
+        margin-bottom: $spacing-lg;
+        display: block;
+        opacity: 0.6;
+      }
+
+      h3 {
+        font-size: $font-xl;
+        color: $text-primary;
+        margin-bottom: $spacing-md;
+      }
+
+      p {
+        color: $text-secondary;
+        margin-bottom: $spacing-lg;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: $leading-relaxed;
+      }
+
+      .retry-button {
+        @extend .btn;
+        @extend .btn--primary;
+      }
+    }
+  }
+
+  &--error {
+    .coin-list__error {
+      .error-icon {
+        color: $primary-red;
+      }
+    }
+  }
+
+  &--empty {
+    .coin-list__empty {
+      .empty-icon {
+        color: $text-secondary;
+      }
+    }
+  }
+}
+
+// Coin table styles
+.coin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: $font-sm;
+
+  th,
+  td {
+    padding: $spacing-md $spacing-lg;
+    text-align: left;
+    border-bottom: 1px solid alpha($border-color, 0.2);
+  }
+
+  th {
+    background: alpha($border-color, 0.05);
+    color: $text-secondary;
+    font-weight: $font-semibold;
+    font-size: $font-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  &__row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background: alpha($border-color, 0.05);
+    }
+
+    &:last-child {
+      td {
+        border-bottom: none;
+      }
+    }
+  }
+
+  &__rank {
+    color: $text-secondary;
+    font-weight: $font-medium;
+    min-width: 50px;
+  }
+
+  &__name {
+    min-width: 200px;
+
+    .coin-info {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+
+      .coin-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .name {
+        font-weight: $font-medium;
+        color: $text-primary;
+        margin-bottom: 2px;
+      }
+
+      .symbol {
+        font-size: $font-xs;
+        color: $text-secondary;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  &__price {
+    font-weight: $font-semibold;
+    color: $text-primary;
+    min-width: 100px;
+  }
+
+  &__change {
+    font-weight: $font-medium;
+    min-width: 80px;
+
+    &--positive {
+      color: $primary-green;
+    }
+
+    &--negative {
+      color: $primary-red;
+    }
+  }
+
+  &__market-cap,
+  &__volume {
+    color: $text-secondary;
+    min-width: 120px;
+  }
+
+  &__favorite {
+    text-align: center;
+    min-width: 60px;
+
+    .favorite-btn {
+      @extend .btn--icon;
+      @extend .btn--sm;
+      color: alpha($primary-red, 0.6);
+      font-size: $font-md;
+
+      &:hover {
+        color: $primary-red;
+        transform: scale(1.1);
+      }
+
+      &--active {
+        color: $primary-red;
+      }
+    }
+  }
+}
+
+// Pagination styles
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  margin-top: $spacing-xl;
+  padding: $spacing-lg 0;
+
+  &__btn {
+    @extend .btn;
+    @extend .btn--secondary;
+    @extend .btn--sm;
+    min-width: 100px;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    &--prev,
+    &--next {
+      font-weight: $font-medium;
+    }
+  }
+
+  &__pages {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    margin: 0 $spacing-md;
+  }
+
+  &__page {
+    @extend .btn;
+    @extend .btn--ghost;
+    @extend .btn--sm;
+    min-width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+
+    &--active {
+      background: $accent-blue;
+      color: white;
+
+      &:hover {
+        background: lighten($accent-blue, 5%);
+        color: white;
+      }
+    }
+  }
+
+  &__dots {
+    color: $text-secondary;
+    font-weight: $font-bold;
+    padding: 0 $spacing-xs;
+  }
+}
+
+// Responsive adjustments
+@include mobile {
+  .coin-list {
+    &__header {
+      padding: $spacing-sm 0;
+    }
+
+    &__controls {
+      width: 100%;
+    }
+
+    &__sort {
+      flex: 1;
+
+      .sort-select {
+        min-width: auto;
+        width: 100%;
+      }
+    }
+
+    &__content {
+      &--grid {
+        gap: $spacing-md;
+      }
+
+      &--list {
+        gap: $spacing-sm;
+
+        .coin-card {
+          padding: $spacing-sm $spacing-md;
+        }
+      }
+    }
+  }
+
+  .coin-table {
+    font-size: $font-xs;
+
+    th,
+    td {
+      padding: $spacing-sm;
+    }
+
+    &__name {
+      min-width: 150px;
+
+      .coin-info {
+        gap: $spacing-xs;
+
+        .coin-icon {
+          width: 20px;
+          height: 20px;
+        }
+
+        .name {
+          font-size: $font-xs;
+        }
+
+        .symbol {
+          font-size: 0.65rem;
+        }
+      }
+    }
+
+    &__market-cap,
+    &__volume {
+      display: none; // Hide on mobile for space
+    }
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+
+    &__btn {
+      min-width: 80px;
+      font-size: $font-xs;
+    }
+
+    &__pages {
+      margin: 0 $spacing-sm;
+      order: 3;
+      width: 100%;
+      justify-content: center;
+      margin-top: $spacing-sm;
+    }
+
+    &__page {
+      min-width: 36px;
+      height: 36px;
+    }
+  }
+}
+
+// Animation for list items
+.coin-list__content--grid,
+.coin-list__content--list {
+  .coin-card {
+    animation: slideInUp 0.3s ease-out;
+    animation-fill-mode: both;
+
+    @for $i from 1 through 12 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{($i - 1) * 0.05}s;
+      }
+    }
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .coin-table {
+    th,
+    td {
+      border-bottom: 2px solid $border-color;
+    }
+
+    &__row:hover {
+      background: alpha($accent-blue, 0.1);
+    }
+  }
+
+  .pagination__page--active {
+    border: 2px solid $accent-blue;
+  }
+}
+
+// Dark mode adjustments
+.theme-dark {
+  .coin-table {
+    th {
+      background: lighten($dark-bg, 3%);
+    }
+
+    &__row:hover {
+      background: lighten($dark-bg, 2%);
+    }
+  }
+}
+
+// Light mode adjustments
+.theme-light {
+  .coin-table {
+    background: white;
+
+    th {
+      background: darken(white, 2%);
+    }
+
+    &__row:hover {
+      background: darken(white, 1%);
+    }
+  }
+}

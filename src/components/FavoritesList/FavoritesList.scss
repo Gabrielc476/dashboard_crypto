@@ -1,0 +1,728 @@
+// src/components/FavoritesList/FavoritesList.scss
+@import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/mixins";
+
+.favorites-list {
+  background: $card-bg;
+  border-radius: $radius-lg;
+  border: 1px solid $border-color;
+  box-shadow: $shadow-medium;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  // Layout variants
+  &--sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 100vh;
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+
+    &.favorites-list--open {
+      transform: translateX(0);
+    }
+
+    @include mobile {
+      width: 100vw;
+      max-width: none;
+    }
+  }
+
+  &--modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 600px;
+    max-height: 80vh;
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+
+    &.favorites-list--open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    @include mobile {
+      width: 95vw;
+      max-height: 85vh;
+    }
+  }
+
+  &--inline {
+    position: relative;
+    width: 100%;
+    max-height: none;
+    box-shadow: none;
+    border: none;
+    background: none;
+  }
+
+  // Header section
+  &__header {
+    @include flex-between;
+    padding: $spacing-lg;
+    border-bottom: 1px solid alpha($border-color, 0.2);
+    background: alpha($border-color, 0.05);
+    flex-shrink: 0;
+
+    .header-info {
+      flex: 1;
+
+      .title {
+        margin: 0;
+        font-size: $font-lg;
+        font-weight: $font-bold;
+        color: $text-primary;
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+
+        .count {
+          font-size: $font-sm;
+          color: $text-secondary;
+          font-weight: $font-medium;
+          background: alpha($border-color, 0.2);
+          padding: $spacing-xs $spacing-sm;
+          border-radius: $radius-md;
+        }
+      }
+
+      .last-update {
+        font-size: $font-xs;
+        color: $text-secondary;
+        margin-top: $spacing-xs;
+        display: block;
+      }
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+
+      button {
+        @extend .btn--icon;
+        @extend .btn--sm;
+        width: 32px;
+        height: 32px;
+        font-size: $font-sm;
+        transition: all 0.2s ease;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+
+      .refresh-btn {
+        color: $accent-blue;
+
+        &:disabled {
+          animation: spin 1s linear infinite;
+          pointer-events: none;
+        }
+
+        &:hover:not(:disabled) {
+          color: lighten($accent-blue, 10%);
+        }
+      }
+
+      .clear-btn {
+        color: $primary-red;
+
+        &:hover {
+          color: lighten($primary-red, 10%);
+        }
+      }
+
+      .close-btn {
+        color: $text-secondary;
+
+        &:hover {
+          color: $text-primary;
+        }
+      }
+    }
+  }
+
+  // Body section
+  &__body {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: alpha($border-color, 0.1);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: alpha($border-color, 0.3);
+      border-radius: 3px;
+
+      &:hover {
+        background: alpha($border-color, 0.5);
+      }
+    }
+  }
+
+  // Content section
+  &__content {
+    padding: $spacing-lg;
+  }
+
+  // Loading state
+  &__loading {
+    @include flex-center;
+    padding: $spacing-3xl;
+    flex-direction: column;
+    gap: $spacing-lg;
+    color: $text-secondary;
+  }
+
+  // Error state
+  &__error {
+    padding: $spacing-xl;
+
+    .error-content {
+      text-align: center;
+
+      .error-icon {
+        font-size: 2rem;
+        margin-bottom: $spacing-md;
+        display: block;
+        opacity: 0.6;
+      }
+
+      .error-message {
+        color: $text-secondary;
+        margin-bottom: $spacing-md;
+        line-height: $leading-relaxed;
+      }
+
+      .retry-button {
+        @extend .btn;
+        @extend .btn--primary;
+        @extend .btn--sm;
+      }
+    }
+  }
+
+  // Empty state
+  &__empty {
+    padding: $spacing-xl;
+
+    .empty-content {
+      text-align: center;
+
+      .empty-icon {
+        font-size: 3rem;
+        margin-bottom: $spacing-lg;
+        display: block;
+        opacity: 0.4;
+      }
+
+      h3 {
+        color: $text-primary;
+        margin-bottom: $spacing-md;
+        font-size: $font-xl;
+      }
+
+      p {
+        color: $text-secondary;
+        margin-bottom: $spacing-lg;
+        line-height: $leading-relaxed;
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .empty-tips {
+        background: alpha($border-color, 0.05);
+        border-radius: $radius-md;
+        padding: $spacing-lg;
+        margin-top: $spacing-xl;
+        text-align: left;
+
+        h4 {
+          color: $text-primary;
+          font-size: $font-sm;
+          margin-bottom: $spacing-sm;
+          text-align: center;
+        }
+
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+
+          li {
+            color: $text-secondary;
+            font-size: $font-sm;
+            margin-bottom: $spacing-xs;
+            padding-left: $spacing-sm;
+            position: relative;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Footer section
+  &__footer {
+    padding: $spacing-md $spacing-lg;
+    border-top: 1px solid alpha($border-color, 0.2);
+    background: alpha($border-color, 0.02);
+    flex-shrink: 0;
+
+    .footer-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: $spacing-xs;
+
+      .capacity {
+        font-size: $font-xs;
+        color: $text-secondary;
+        font-weight: $font-medium;
+      }
+
+      .capacity-warning {
+        font-size: $font-xs;
+        color: $primary-red;
+        font-weight: $font-medium;
+      }
+    }
+
+    .footer-tip {
+      font-size: $font-xs;
+      color: alpha($text-secondary, 0.8);
+      text-align: center;
+    }
+  }
+}
+
+// Backdrop for modal
+.favorites-list__backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: alpha($dark-bg, 0.8);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  opacity: 0;
+  animation: backdropFadeIn 0.3s ease forwards;
+}
+
+// Favorites grid layout
+.favorites-grid {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  .favorite-item {
+    position: relative;
+    border-radius: $radius-md;
+    transition: all 0.3s ease;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    &--drag-over {
+      transform: translateY(-4px);
+      box-shadow: $shadow-heavy;
+      border: 2px dashed $accent-blue;
+    }
+
+    .drag-handle {
+      position: absolute;
+      top: $spacing-sm;
+      right: $spacing-sm;
+      color: alpha($text-secondary, 0.6);
+      font-size: $font-xs;
+      cursor: grab;
+      padding: $spacing-xs;
+      border-radius: $radius-sm;
+      transition: all 0.2s ease;
+      background: alpha($card-bg, 0.8);
+
+      &:hover {
+        color: $text-secondary;
+        background: alpha($border-color, 0.2);
+      }
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
+  }
+}
+
+// Favorites table layout
+.favorites-table {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: alpha($border-color, 0.1);
+  border-radius: $radius-md;
+  overflow: hidden;
+
+  .favorite-row {
+    @include flex-between;
+    padding: $spacing-md;
+    background: $card-bg;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+
+    &:hover {
+      background: alpha($border-color, 0.05);
+      transform: translateX(2px);
+    }
+
+    &--drag-over {
+      background: alpha($accent-blue, 0.1);
+      border: 1px solid $accent-blue;
+    }
+
+    .coin-info {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      flex: 1;
+      min-width: 0;
+
+      .coin-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .coin-details {
+        flex: 1;
+        min-width: 0;
+
+        .coin-name {
+          display: block;
+          font-weight: $font-medium;
+          color: $text-primary;
+          font-size: $font-sm;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-bottom: $spacing-xs;
+        }
+
+        .coin-symbol {
+          font-size: $font-xs;
+          color: $text-secondary;
+          text-transform: uppercase;
+          font-weight: $font-medium;
+        }
+      }
+    }
+
+    .coin-price {
+      text-align: right;
+      margin-right: $spacing-md;
+
+      .price {
+        display: block;
+        font-weight: $font-semibold;
+        color: $text-primary;
+        font-size: $font-sm;
+        margin-bottom: $spacing-xs;
+      }
+
+      .change {
+        font-size: $font-xs;
+        font-weight: $font-medium;
+
+        &--positive {
+          color: $primary-green;
+        }
+
+        &--negative {
+          color: $primary-red;
+        }
+      }
+    }
+
+    .coin-actions {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xs;
+
+      .remove-btn {
+        @extend .btn--icon;
+        @extend .btn--sm;
+        width: 24px;
+        height: 24px;
+        color: alpha($primary-red, 0.6);
+        font-size: $font-xs;
+        opacity: 0;
+        transition: all 0.2s ease;
+
+        &:hover {
+          color: $primary-red;
+          transform: scale(1.2);
+        }
+      }
+
+      .drag-handle {
+        color: alpha($text-secondary, 0.6);
+        font-size: $font-xs;
+        cursor: grab;
+        padding: $spacing-xs;
+        opacity: 0;
+        transition: all 0.2s ease;
+
+        &:hover {
+          color: $text-secondary;
+        }
+
+        &:active {
+          cursor: grabbing;
+        }
+      }
+    }
+
+    &:hover .coin-actions {
+      .remove-btn,
+      .drag-handle {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// Favorites summary component
+.favorites-summary {
+  @extend .btn;
+  @extend .btn--secondary;
+  @extend .btn--sm;
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  position: relative;
+
+  .icon {
+    font-size: $font-md;
+    color: $primary-green;
+  }
+
+  .count {
+    background: $primary-green;
+    color: white;
+    font-size: $font-xs;
+    font-weight: $font-bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  .label {
+    font-weight: $font-medium;
+
+    @include mobile {
+      display: none;
+    }
+  }
+
+  &:hover {
+    .icon {
+      animation: bounce 0.6s ease;
+    }
+  }
+}
+
+// Favorites dropdown
+.favorites-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+// Responsive adjustments
+@include mobile {
+  .favorites-list {
+    &--sidebar {
+      width: 100vw;
+      border-radius: 0;
+    }
+
+    &--modal {
+      width: 95vw;
+      border-radius: $radius-md;
+    }
+
+    &__header {
+      padding: $spacing-md;
+
+      .title {
+        font-size: $font-md;
+      }
+
+      .header-actions {
+        gap: $spacing-xs;
+
+        button {
+          width: 28px;
+          height: 28px;
+        }
+      }
+    }
+
+    &__content {
+      padding: $spacing-md;
+    }
+
+    &__footer {
+      padding: $spacing-sm $spacing-md;
+    }
+  }
+
+  .favorites-table {
+    .favorite-row {
+      padding: $spacing-sm;
+
+      .coin-info {
+        .coin-icon {
+          width: 28px;
+          height: 28px;
+        }
+
+        .coin-details {
+          .coin-name {
+            font-size: $font-xs;
+          }
+
+          .coin-symbol {
+            font-size: 0.65rem;
+          }
+        }
+      }
+
+      .coin-price {
+        .price {
+          font-size: $font-xs;
+        }
+
+        .change {
+          font-size: 0.65rem;
+        }
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes backdropFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-4px);
+  }
+  80% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Theme variants
+.theme-light {
+  .favorites-list {
+    background: white;
+    border-color: #e5e7eb;
+
+    &__header {
+      background: #f9fafb;
+      border-bottom-color: #e5e7eb;
+    }
+
+    &__footer {
+      background: #f9fafb;
+      border-top-color: #e5e7eb;
+    }
+  }
+
+  .favorites-table .favorite-row {
+    background: white;
+
+    &:hover {
+      background: #f9fafb;
+    }
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .favorites-list {
+    border: 2px solid $border-color;
+
+    &__header,
+    &__footer {
+      border-color: $border-color;
+    }
+  }
+
+  .favorites-table .favorite-row {
+    border: 1px solid alpha($border-color, 0.3);
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .favorites-list,
+  .favorite-item,
+  .favorite-row,
+  .favorites-summary .icon {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .favorites-list--sidebar,
+  .favorites-list--modal {
+    transition: none !important;
+  }
+}

@@ -1,0 +1,339 @@
+// src/components/common/SearchBar/SearchBar.scss
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.search-bar {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+
+  &__input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &__input {
+    width: 100%;
+    padding: $spacing-md $spacing-lg;
+    padding-left: calc(#{$spacing-lg} + 32px); // Space for search icon
+    padding-right: calc(#{$spacing-lg} + 40px); // Space for clear button
+    background: alpha($card-bg, 0.8);
+    backdrop-filter: blur(10px);
+    border: 2px solid $border-color;
+    border-radius: 50px;
+    color: $text-primary;
+    font-size: $font-lg;
+    font-weight: $font-medium;
+    transition: all 0.3s ease;
+
+    &::placeholder {
+      color: $text-secondary;
+    }
+
+    &:focus {
+      outline: none;
+      background: $card-bg;
+      border-color: $accent-blue;
+      box-shadow: $shadow-medium, 0 0 0 3px alpha($accent-blue, 0.1);
+    }
+
+    &:hover {
+      border-color: lighten($border-color, 10%);
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    left: $spacing-lg;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $text-secondary;
+    font-size: $font-lg;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  &__clear {
+    position: absolute;
+    right: $spacing-lg;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: alpha($border-color, 0.5);
+    color: $text-secondary;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
+    font-size: $font-sm;
+
+    &:hover {
+      background: alpha($border-color, 0.8);
+      color: $text-primary;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    &--visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  &__error {
+    margin-top: $spacing-sm;
+    padding: $spacing-sm $spacing-lg;
+    background: alpha($primary-red, 0.1);
+    color: $primary-red;
+    border-radius: $radius-md;
+    font-size: $font-sm;
+    text-align: center;
+  }
+
+  &__suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: $card-bg;
+    border: 2px solid $border-color;
+    border-top: none;
+    border-radius: 0 0 $radius-lg $radius-lg;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: $shadow-heavy;
+    margin-top: -2px;
+
+    &:empty {
+      display: none;
+    }
+
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: $border-color;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $text-secondary;
+      border-radius: 3px;
+
+      &:hover {
+        background: $text-primary;
+      }
+    }
+  }
+
+  &__section-header {
+    padding: $spacing-sm $spacing-lg;
+    background: alpha($border-color, 0.1);
+    color: $text-secondary;
+    font-size: $font-xs;
+    font-weight: $font-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid alpha($border-color, 0.3);
+  }
+
+  &__no-results {
+    padding: $spacing-lg;
+    text-align: center;
+    color: $text-secondary;
+    font-style: italic;
+  }
+
+  &__debug {
+    margin-top: $spacing-xs;
+    padding: $spacing-xs;
+    background: alpha($primary-green, 0.1);
+    color: $primary-green;
+    font-size: $font-xs;
+    border-radius: $radius-sm;
+    text-align: center;
+  }
+
+  // Loading state
+  &--loading {
+    .search-bar__icon {
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+// Suggestion item styles
+.suggestion-item {
+  padding: $spacing-md $spacing-lg;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid alpha($border-color, 0.2);
+  display: flex;
+  align-items: center;
+
+  &:hover,
+  &--highlighted {
+    background: alpha($border-color, 0.1);
+    transform: translateX(2px);
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &--loading {
+    justify-content: center;
+    color: $text-secondary;
+    cursor: default;
+
+    &:hover {
+      background: none;
+      transform: none;
+    }
+
+    .loading-text {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+
+      &::after {
+        content: "";
+        width: 16px;
+        height: 16px;
+        border: 2px solid alpha($text-secondary, 0.3);
+        border-top-color: $text-secondary;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+    }
+  }
+
+  .coin-info {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    flex: 1;
+  }
+
+  .coin-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .coin-details {
+    flex: 1;
+    min-width: 0; // Allow text truncation
+
+    .coin-name {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xs;
+      font-weight: $font-medium;
+      color: $text-primary;
+      font-size: $font-md;
+      margin-bottom: $spacing-xs;
+
+      .popular-badge {
+        font-size: $font-sm;
+        animation: pulse 2s infinite;
+      }
+    }
+
+    .coin-symbol {
+      color: $text-secondary;
+      font-size: $font-sm;
+      text-transform: uppercase;
+      font-weight: $font-medium;
+    }
+  }
+
+  .coin-rank {
+    color: $text-secondary;
+    font-size: $font-sm;
+    font-weight: $font-medium;
+    margin-left: auto;
+    padding: $spacing-xs $spacing-sm;
+    background: alpha($border-color, 0.2);
+    border-radius: $radius-sm;
+  }
+}
+
+// Responsive adjustments
+@include mobile {
+  .search-bar {
+    &__input {
+      font-size: $font-md;
+      padding: $spacing-sm $spacing-md;
+      padding-left: calc(#{$spacing-md} + 28px);
+      padding-right: calc(#{$spacing-md} + 36px);
+    }
+
+    &__icon {
+      left: $spacing-md;
+      font-size: $font-md;
+    }
+
+    &__clear {
+      right: $spacing-md;
+      width: 24px;
+      height: 24px;
+    }
+
+    &__suggestions {
+      max-height: 300px;
+    }
+  }
+
+  .suggestion-item {
+    padding: $spacing-sm $spacing-md;
+
+    .coin-icon {
+      width: 28px;
+      height: 28px;
+    }
+
+    .coin-details {
+      .coin-name {
+        font-size: $font-sm;
+      }
+
+      .coin-symbol {
+        font-size: $font-xs;
+      }
+    }
+
+    .coin-rank {
+      font-size: $font-xs;
+      padding: 2px $spacing-xs;
+    }
+  }
+}
+
+// Animations
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

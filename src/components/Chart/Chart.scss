@@ -1,0 +1,513 @@
+// src/components/Chart/Chart.scss
+@import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/mixins";
+
+.chart {
+  @include card;
+  position: relative;
+  background: $card-bg;
+  border-radius: $radius-lg;
+
+  // Header section
+  &__header {
+    @include flex-between;
+    padding: $spacing-lg $spacing-lg $spacing-md $spacing-lg;
+    border-bottom: 1px solid alpha($border-color, 0.2);
+    flex-wrap: wrap;
+    gap: $spacing-md;
+
+    @include mobile {
+      flex-direction: column;
+      align-items: stretch;
+      gap: $spacing-sm;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+
+  &__price {
+    display: flex;
+    align-items: baseline;
+    gap: $spacing-md;
+    flex-wrap: wrap;
+
+    .current-price {
+      font-size: $font-2xl;
+      font-weight: $font-bold;
+      color: $text-primary;
+    }
+
+    .price-change {
+      font-size: $font-lg;
+      font-weight: $font-semibold;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $radius-md;
+
+      &--up {
+        color: $primary-green;
+        background: alpha($primary-green, 0.1);
+      }
+
+      &--down {
+        color: $primary-red;
+        background: alpha($primary-red, 0.1);
+      }
+    }
+  }
+
+  &__stats {
+    display: flex;
+    gap: $spacing-lg;
+    flex-wrap: wrap;
+
+    .stat-item {
+      display: flex;
+      gap: $spacing-xs;
+      font-size: $font-sm;
+
+      .label {
+        color: $text-secondary;
+        font-weight: $font-medium;
+      }
+
+      .value {
+        color: $text-primary;
+        font-weight: $font-semibold;
+      }
+    }
+  }
+
+  // Timeframe selector
+  &__timeframes {
+    display: flex;
+    background: alpha($border-color, 0.1);
+    border-radius: $radius-md;
+    padding: 2px;
+    flex-wrap: wrap;
+
+    .timeframe-btn {
+      padding: $spacing-xs $spacing-md;
+      background: none;
+      border: none;
+      color: $text-secondary;
+      font-size: $font-sm;
+      font-weight: $font-medium;
+      cursor: pointer;
+      border-radius: $radius-sm;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+
+      &:hover {
+        color: $text-primary;
+        background: alpha($border-color, 0.1);
+      }
+
+      &--active {
+        background: $accent-blue;
+        color: white;
+
+        &:hover {
+          background: lighten($accent-blue, 5%);
+        }
+      }
+    }
+  }
+
+  // Chart container
+  &__container {
+    position: relative;
+    padding: $spacing-md $spacing-lg $spacing-lg $spacing-lg;
+    overflow: hidden;
+  }
+
+  &__canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: crosshair;
+    transition: all 0.3s ease;
+  }
+
+  // Loading state
+  &--loading {
+    .chart__loading {
+      @include flex-center;
+      height: 300px;
+      flex-direction: column;
+      gap: $spacing-lg;
+    }
+  }
+
+  // Error state
+  &--error {
+    .chart__error {
+      @include flex-center;
+      height: 300px;
+      flex-direction: column;
+      gap: $spacing-md;
+      text-align: center;
+
+      .error-icon {
+        font-size: 3rem;
+        opacity: 0.6;
+      }
+
+      h3 {
+        color: $text-primary;
+        margin: 0;
+      }
+
+      p {
+        color: $text-secondary;
+        margin: 0;
+      }
+
+      .retry-button {
+        @extend .btn;
+        @extend .btn--primary;
+        @extend .btn--sm;
+        margin-top: $spacing-sm;
+      }
+    }
+  }
+
+  // Empty state
+  &--empty {
+    .chart__empty {
+      @include flex-center;
+      height: 300px;
+      flex-direction: column;
+      gap: $spacing-md;
+      text-align: center;
+
+      .empty-icon {
+        font-size: 3rem;
+        opacity: 0.4;
+      }
+
+      h3 {
+        color: $text-primary;
+        margin: 0;
+      }
+
+      p {
+        color: $text-secondary;
+        margin: 0;
+      }
+    }
+  }
+
+  // Animated variant
+  &--animated {
+    .chart__canvas {
+      animation: chartFadeIn 0.6s ease-out;
+    }
+
+    .chart__price .current-price {
+      animation: priceUpdate 0.5s ease-out;
+    }
+  }
+
+  // Theme variants
+  &--light {
+    background: white;
+    border: 1px solid #e5e7eb;
+
+    .chart__header {
+      border-bottom-color: #e5e7eb;
+    }
+
+    .chart__timeframes {
+      background: #f3f4f6;
+
+      .timeframe-btn {
+        &:hover {
+          background: #e5e7eb;
+        }
+      }
+    }
+  }
+
+  &--dark {
+    background: $card-bg;
+    border: 1px solid $border-color;
+
+    .chart__header {
+      border-bottom-color: alpha($border-color, 0.3);
+    }
+  }
+}
+
+// Chart tooltip
+.chart-tooltip {
+  background: $card-bg;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: $spacing-sm $spacing-md;
+  box-shadow: $shadow-heavy;
+  font-size: $font-sm;
+  min-width: 120px;
+  backdrop-filter: blur(10px);
+
+  .tooltip-price {
+    font-weight: $font-bold;
+    color: $text-primary;
+    margin-bottom: $spacing-xs;
+  }
+
+  .tooltip-time {
+    color: $text-secondary;
+    font-size: $font-xs;
+  }
+
+  .tooltip-volume {
+    color: $text-secondary;
+    font-size: $font-xs;
+    margin-top: $spacing-xs;
+  }
+
+  // Trend-based styling
+  &--up {
+    border-left: 3px solid $primary-green;
+  }
+
+  &--down {
+    border-left: 3px solid $primary-red;
+  }
+
+  // Arrow pointing down to chart
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid $card-bg;
+  }
+}
+
+// Simple chart variant
+.simple-chart {
+  padding: 0;
+  background: none;
+  border: none;
+
+  .chart__header {
+    display: none;
+  }
+
+  .chart__container {
+    padding: 0;
+  }
+
+  .chart__canvas {
+    cursor: default;
+  }
+}
+
+// Volume chart variant
+.volume-chart {
+  .chart__container {
+    position: relative;
+
+    &::after {
+      content: "Volume";
+      position: absolute;
+      top: $spacing-md;
+      right: $spacing-lg;
+      font-size: $font-xs;
+      color: $text-secondary;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+// Chart grid overlay (for better visual alignment)
+.chart__grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  opacity: 0.1;
+  background-image: linear-gradient(
+      to right,
+      $border-color 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, $border-color 1px, transparent 1px);
+  background-size: 50px 25px;
+}
+
+// Responsive adjustments
+@include mobile {
+  .chart {
+    &__header {
+      padding: $spacing-md;
+    }
+
+    &__price {
+      .current-price {
+        font-size: $font-xl;
+      }
+
+      .price-change {
+        font-size: $font-md;
+      }
+    }
+
+    &__stats {
+      gap: $spacing-md;
+
+      .stat-item {
+        font-size: $font-xs;
+      }
+    }
+
+    &__timeframes {
+      width: 100%;
+      justify-content: space-between;
+
+      .timeframe-btn {
+        flex: 1;
+        text-align: center;
+        padding: $spacing-sm;
+        font-size: $font-xs;
+      }
+    }
+
+    &__container {
+      padding: $spacing-sm $spacing-md $spacing-md $spacing-md;
+    }
+
+    // Hide some elements on very small screens
+    &__stats {
+      .stat-item:nth-child(n + 3) {
+        display: none;
+      }
+    }
+  }
+
+  .chart-tooltip {
+    font-size: $font-xs;
+    padding: $spacing-xs $spacing-sm;
+    min-width: 100px;
+
+    .tooltip-price {
+      font-size: $font-sm;
+    }
+  }
+}
+
+// Chart loading animation
+@keyframes chartFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes priceUpdate {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// Chart hover effects
+.chart:hover {
+  .chart__canvas {
+    opacity: 1;
+  }
+}
+
+// Print styles
+@media print {
+  .chart {
+    &__timeframes,
+    .chart-tooltip {
+      display: none;
+    }
+
+    break-inside: avoid;
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .chart {
+    border: 2px solid $border-color;
+
+    &__header {
+      border-bottom: 2px solid $border-color;
+    }
+  }
+
+  .chart-tooltip {
+    border: 2px solid $border-color;
+    background: $dark-bg;
+    color: $text-primary;
+  }
+
+  .chart__timeframes .timeframe-btn--active {
+    border: 2px solid $accent-blue;
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .chart--animated,
+  .chart__canvas,
+  .chart__price .current-price {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+// Focus styles for accessibility
+.chart__timeframes .timeframe-btn:focus {
+  outline: 2px solid $accent-blue;
+  outline-offset: 2px;
+}
+
+// Custom scrollbar for horizontal scrolling on mobile
+.chart__timeframes {
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: alpha($border-color, 0.1);
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: alpha($border-color, 0.3);
+    border-radius: 2px;
+
+    &:hover {
+      background: alpha($border-color, 0.5);
+    }
+  }
+}
