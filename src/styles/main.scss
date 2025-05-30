@@ -1,6 +1,7 @@
-/* Alternative main.scss - All imports inline to avoid resolution issues */
+// Main SCSS entry point - fixed version
+// Import order: abstracts first, then base, then components
 
-/* Variables */
+// Variables first
 $primary-green: #00d4aa;
 $primary-red: #ff6b6b;
 $dark-bg: #0f0f23;
@@ -10,11 +11,13 @@ $text-secondary: #a0a3bd;
 $accent-blue: #4c6ef5;
 $border-color: #2a2d47;
 
+// Breakpoints
 $mobile: 480px;
 $tablet: 768px;
 $desktop: 1024px;
 $large-desktop: 1440px;
 
+// Spacing
 $spacing-xs: 0.25rem;
 $spacing-sm: 0.5rem;
 $spacing-md: 1rem;
@@ -23,20 +26,24 @@ $spacing-xl: 2rem;
 $spacing-2xl: 2.5rem;
 $spacing-3xl: 3rem;
 
+// Border radius
 $radius-sm: 4px;
 $radius-md: 8px;
 $radius-lg: 12px;
 
+// Shadows
 $shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
 $shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.15);
 $shadow-heavy: 0 8px 25px rgba(0, 0, 0, 0.25);
 
+// Typography
 $font-light: 300;
 $font-regular: 400;
 $font-medium: 500;
 $font-semibold: 600;
 $font-bold: 700;
 
+// Font sizes
 $font-xs: 0.75rem;
 $font-sm: 0.875rem;
 $font-md: 1rem;
@@ -46,26 +53,19 @@ $font-2xl: 1.5rem;
 $font-3xl: 1.875rem;
 $font-4xl: 2.25rem;
 
+// Line heights
 $leading-tight: 1.25;
 $leading-normal: 1.5;
 $leading-relaxed: 1.625;
 
+// Font families
 $font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
   "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 
 $font-mono: "SF Mono", Monaco, Inconsolata, "Roboto Mono", "Source Code Pro",
   monospace;
 
-/* Functions */
-@function rem($pixels, $context: 16) {
-  @return #{$pixels / $context}rem;
-}
-
-@function alpha($color, $opacity) {
-  @return rgba($color, $opacity);
-}
-
-/* Mixins */
+// Mixins
 @mixin mobile {
   @media (max-width: #{$mobile - 1px}) {
     @content;
@@ -127,24 +127,15 @@ $font-mono: "SF Mono", Monaco, Inconsolata, "Roboto Mono", "Source Code Pro",
 @mixin loading-pulse {
   background: linear-gradient(
     90deg,
-    alpha($border-color, 0.2) 25%,
-    alpha($border-color, 0.4) 50%,
-    alpha($border-color, 0.2) 75%
+    rgba($border-color, 0.2) 25%,
+    rgba($border-color, 0.4) 50%,
+    rgba($border-color, 0.2) 75%
   );
   background-size: 200% 100%;
-  animation: loading 1.5s infinite;
+  animation: loading-pulse-animation 1.5s infinite;
 }
 
-@keyframes loading {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-/* CSS Reset */
+// CSS Reset
 *,
 *::before,
 *::after {
@@ -163,6 +154,11 @@ ol[role="list"] {
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px;
+
+  @include mobile {
+    font-size: 14px;
+  }
 }
 
 html:focus-within {
@@ -179,6 +175,9 @@ body {
   background-color: $dark-bg;
   color: $text-primary;
   overflow-x: hidden;
+  font-size: $font-md;
+  font-weight: $font-regular;
+  line-height: $leading-normal;
 }
 
 a:not([class]) {
@@ -246,23 +245,7 @@ textarea:not([rows]) {
   scroll-margin-block: 5ex;
 }
 
-/* Typography */
-html {
-  font-size: 16px;
-
-  @include mobile {
-    font-size: 14px;
-  }
-}
-
-body {
-  font-family: $font-sans;
-  font-size: $font-md;
-  font-weight: $font-regular;
-  line-height: $leading-normal;
-  color: $text-primary;
-}
-
+// Typography
 h1,
 h2,
 h3,
@@ -358,7 +341,7 @@ i {
 code {
   font-family: $font-mono;
   font-size: 0.9em;
-  background-color: alpha($border-color, 0.3);
+  background-color: rgba($border-color, 0.3);
   padding: 0.2em 0.4em;
   border-radius: $radius-sm;
   color: $primary-green;
@@ -378,7 +361,7 @@ pre {
   }
 }
 
-/* Utility Classes */
+// Utility Classes
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -405,7 +388,7 @@ pre {
   border: 0;
 }
 
-.loading {
+.loading-pulse {
   @include loading-pulse;
 }
 
@@ -437,7 +420,7 @@ pre {
   text-align: right !important;
 }
 
-/* Theme Classes */
+// Theme Classes
 .theme-transition {
   transition: background-color 0.3s ease, color 0.3s ease,
     border-color 0.3s ease;
@@ -473,4 +456,20 @@ pre {
   --text-primary: #{$text-primary};
   --text-secondary: #{$text-secondary};
   --border-color: #{$border-color};
+}
+
+// Animations
+@keyframes loading-pulse-animation {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

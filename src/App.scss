@@ -1,6 +1,9 @@
 // App component specific styles
+// Import variables first
+@import "./styles/abstracts/variables";
+@import "./styles/abstracts/mixins";
 
-.app {
+.App {
   min-height: 100vh;
   background: $dark-bg;
   color: $text-primary;
@@ -11,16 +14,13 @@
   }
 
   &__container {
-    @extend .container;
+    @include container;
   }
 
   // Loading state for entire app
   &--loading {
-    .app__main {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
+    .App__main {
+      @include flex-column-center;
       gap: $spacing-lg;
 
       .loading-spinner {
@@ -66,7 +66,7 @@
     }
 
     .retry-button {
-      @extend .btn--primary;
+      @include button-primary;
     }
   }
 }
@@ -97,7 +97,7 @@
 
 // Responsive adjustments
 @include mobile {
-  .app {
+  .App {
     &__main {
       padding: $spacing-lg 0;
     }
