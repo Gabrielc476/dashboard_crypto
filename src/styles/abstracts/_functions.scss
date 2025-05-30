@@ -18,8 +18,8 @@
   @return darken($color, $percentage);
 }
 
-// Alpha transparency
-@function alpha($color, $opacity) {
+// Alpha transparency (renamed to avoid conflict with Sass built-in)
+@function alpha-color($color, $opacity) {
   @return rgba($color, $opacity);
 }
 

@@ -1,23 +1,23 @@
-// Main SCSS file - Import order matters!
+/* Main SCSS file - Import order matters! */
 
-// 1. Abstracts (no CSS output)
+/* 1. Abstracts (no CSS output) */
 @import "abstracts/variables";
 @import "abstracts/functions";
 @import "abstracts/mixins";
 
-// 2. Base styles
+/* 2. Base styles */
 @import "base/reset";
 @import "base/typography";
 
-// 3. Layout styles
+/* 3. Layout styles */
 @import "layouts/header";
 
-// 4. Components
+/* 4. Components */
 @import "components/buttons";
 @import "components/cards";
 @import "components/forms";
 
-// Global utility classes
+/* Global utility classes */
 .container {
   max-width: 1200px;
   margin: 0 auto;
